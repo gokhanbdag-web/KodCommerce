@@ -270,13 +270,13 @@ msgid "This module is reserved for a future development stage."
 msgstr "Bu modül sonraki geliştirme aşaması için ayrılmıştır."
 
 msgid "Invalid security token"
-msgstr ""
+msgstr "Geçersiz güvenlik anahtarı"
 
 msgid "Invalid credentials"
-msgstr ""
+msgstr "E-posta veya şifre hatalı"
 
 msgid "Authentication required"
-msgstr ""
+msgstr "Oturum açmanız gerekiyor"
 
 msgid "KodCommerce Administration"
 msgstr ""
@@ -313,3 +313,45 @@ msgstr "KodCommerce'e Hoş Geldiniz"
 
 msgid "Sign in to access the administration panel."
 msgstr "Yönetim paneline erişmek için giriş yapın."
+
+msgid "Access denied"
+msgstr "Erişim engellendi"
+
+msgid "KodCommerce Setup"
+msgstr "KodCommerce Kurulumu"
+
+msgid "KodCommerce — Initial setup"
+msgstr "KodCommerce — İlk kurulum"
+
+msgid "Configure your MySQL database and create the first administrator. Existing installations are preserved."
+msgstr "MySQL veritabanınızı yapılandırın ve ilk yönetici hesabını oluşturun. Mevcut kurulumlar korunur."
+
+msgid "MySQL connection"
+msgstr "MySQL bağlantısı"
+
+msgid "Database host"
+msgstr "Veritabanı sunucusu"
+
+msgid "Port"
+msgstr "Port"
+
+msgid "Database name"
+msgstr "Veritabanı adı"
+
+msgid "Database user"
+msgstr "Veritabanı kullanıcısı"
+
+msgid "Database password"
+msgstr "Veritabanı şifresi"
+
+msgid "Test connection"
+msgstr "Bağlantıyı test et"
+
+msgid "Administrator email"
+msgstr "Yönetici e-postası"
+
+msgid "Administrator password (12 characters minimum)"
+msgstr "Yönetici şifresi (en az 12 karakter)"
+
+msgid "Install KodCommerce"
+msgstr "KodCommerce'i kur"
