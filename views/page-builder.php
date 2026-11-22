@@ -1,6 +1,6 @@
 <?php
 $builderTranslations = [];
-foreach (['Widget','Type','Content','Column','Span','+ Widget','Row','Width','Remove row','+ Column','Preview (unsaved)','Homepage published. View it at /','Save failed','Unable to save homepage','Unable to load page','Unable to load saved layout','heading','text','button','contained','fluid','full'] as $message) {
+foreach (['Widget','Type','Content','Column','Span','+ Widget','Row','Width','Remove row','+ Column','Preview (unsaved)','Homepage published. View it at /','Page saved','Save failed','Unable to save homepage','Unable to load page','Unable to load saved layout','heading','text','button','contained','fluid','full'] as $message) {
     $builderTranslations[$message] = t($message);
 }
 ?>
