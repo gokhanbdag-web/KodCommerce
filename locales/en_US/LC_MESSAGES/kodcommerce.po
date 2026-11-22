@@ -535,3 +535,30 @@ msgstr ""
 
 msgid "Drag widgets between columns, including empty columns. Use arrows to reorder columns, or duplicate widgets."
 msgstr ""
+
+msgid "Copy widget"
+msgstr ""
+
+msgid "Copy"
+msgstr ""
+
+msgid "Paste widget"
+msgstr ""
+
+msgid "Paste"
+msgstr ""
+
+msgid "Widget copied"
+msgstr ""
+
+msgid "Move to column"
+msgstr ""
+
+msgid "Move"
+msgstr ""
+
+msgid "Undo"
+msgstr ""
+
+msgid "On mobile, choose a target column and tap Move. Copy and paste widgets, or use Undo to restore a previous layout."
+msgstr ""
