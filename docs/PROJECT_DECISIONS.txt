@@ -54,3 +54,10 @@ Open questions (not yet decided)
 
 Pending details
 - Exact set of widgets, responsive column controls, banner typography presets, background-image positioning, content persistence format, and precise interpretation of contained versus fluid column behavior are not yet defined.
+
+8. E-commerce widgets
+- The visual page builder must include e-commerce-specific widgets in addition to general content widgets.
+- Explicitly requested examples: recently added products and favorites.
+- The widget system must be extensible to additional commerce widgets as requirements are defined.
+- The styled banner text widget can also be used for CTA (call-to-action) sections; its eyebrow, caption, and description fields remain as previously specified.
+- The exact behavior of favorites (e.g., per-user wishlist vs featured favorites), product sorting, and further widget types are not yet specified.
