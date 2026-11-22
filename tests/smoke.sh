@@ -22,7 +22,8 @@ test -n "$csrf"
 curl -fsS -b /tmp/kodcommerce-cookie -c /tmp/kodcommerce-cookie -d "csrf=$csrf" --data-urlencode 'email=admin@example.test' --data-urlencode 'password=correct-horse-battery-staple' http://127.0.0.1:8765/api/login | grep -q '"ok":true'
 curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/admin/dashboard/overview | grep -q 'adminContent'
 # Save a homepage as the authenticated administrator and verify rendered output.
-csrf=$(curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/ | sed -n 's/.*name="csrf-token" content="\\([^"]*\\)".*/\\1/p' | head -1)
+csrf=$(curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/ | sed -n 's/.*name="csrf-token" content="\([^"]*\)".*/\1/p' | head -1)
+test -n "$csrf"
 curl -fsS -b /tmp/kodcommerce-cookie -d "csrf=$csrf" --data-urlencode 'title=Homepage' --data-urlencode 'layout=[{"width":"contained","columns":[{"span":12,"widgets":[{"type":"heading","text":"CMS MySQL smoke test"}]}]}]' http://127.0.0.1:8765/api/pages/home | grep -q '"ok":true'
 curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/ | grep -q 'CMS MySQL smoke test'
 echo 'Installer, storefront, login, admin and CMS MySQL smoke tests passed'
