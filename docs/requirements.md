@@ -7,7 +7,7 @@
 - [x] Gettext bootstrapping and English message catalog
 - [ ] Compile and validate Turkish MO catalog in CI
 - [ ] Add translation bridge for dynamic JavaScript messages
-- [ ] Database-backed users, roles and permissions
+- [x] Database-backed initial administrator (SQLite); granular roles and permissions remain pending
 - [ ] Module-level functionality and editor lifecycle
 - [ ] End-to-end browser and accessibility tests
 
@@ -15,6 +15,5 @@
 
 PHP 8.2+ with sessions, gettext extension recommended. Serve `public/`
 as the document root with a router fallback to `public/index.php`.
-Set `KODCOMMERCE_ADMIN_EMAIL` and
-`KODCOMMERCE_ADMIN_PASSWORD_HASH` (from PHP `password_hash`).
+Open `/install` on the first run to create the administrator; then use the existing AJAX account drawer to sign in. Requires PDO SQLite and a writable `storage/` directory. Configure the web server document root to `public/` so the database cannot be downloaded.
 Do not commit passwords or local environment files.
