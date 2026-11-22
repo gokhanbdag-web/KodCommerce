@@ -26,8 +26,9 @@ test -n "$csrf"
 curl -fsS -b /tmp/kodcommerce-cookie -c /tmp/kodcommerce-cookie -d "csrf=$csrf" --data-urlencode 'email=admin@example.test' --data-urlencode 'password=correct-horse-battery-staple' http://127.0.0.1:8765/api/login | grep '"ok":true' >/dev/null
 curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/admin/dashboard/overview | grep 'adminContent' >/dev/null
 # After login, a fresh storefront request must show authenticated navigation, not the login drawer trigger.
-curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/ | grep 'href="/admin/dashboard/overview">Administration</a>' >/dev/null
-! curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/ | grep 'aria-label="Open account"' >/dev/null
+curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/ | grep 'id="accountRole">administrator</p>' >/dev/null
+curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/ | grep 'id="adminAccountLink"' >/dev/null
+curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/ | grep 'aria-label="Open account"' >/dev/null
 curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/ | grep '/assets/js/storefront.js?v=' >/dev/null
  # Pages is the only CMS navigation entry; new pages open the embedded visual editor.
 curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/admin/content-management/pages | grep 'Add New Page' >/dev/null
