@@ -1,4 +1,5 @@
-import './page-builder.js';
+// Keep authentication and navigation functional even when the editor module fails to load.
+import('./page-builder.js').catch(error => console.error('Page editor module unavailable', error));
 const content = document.querySelector('#adminContent');
 const loginForm = document.querySelector('#loginForm');
 const accountLinks = document.querySelector('#accountLinks');
@@ -31,7 +32,7 @@ document.addEventListener('click', async (event) => {
   if (!link || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
   event.preventDefault();
   try { await navigate(link.href); closeDrawer(link); }
-  catch (error) { console.error(error); }
+  catch (error) { console.error(error); window.location.assign(link.href); }
 });
 window.addEventListener('popstate', () => navigate(location.pathname + location.search, false).catch(console.error));
 
