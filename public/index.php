@@ -46,16 +46,16 @@ if (!\KodCommerce\Support\Installation::installed()) {
         ];
         try {
             if (($_POST['action'] ?? '') === 'test') {
-                \\KodCommerce\\Support\\Installation::test($config);
+                \KodCommerce\Support\Installation::test($config);
             } else {
-                \\KodCommerce\\Support\\Installation::install(
+                \KodCommerce\Support\Installation::install(
                     trim((string) ($_POST['email'] ?? '')),
                     (string) ($_POST['password'] ?? ''),
                     $config
                 );
             }
             jsonResponse(['ok' => true]);
-        } catch (\\Throwable $error) {
+        } catch (\Throwable $error) {
             error_log('KodCommerce installation error: ' . get_class($error));
             jsonResponse(['error' => 'Database connection or installation failed. Check credentials, database permissions and PHP extensions.'], 422);
         }
