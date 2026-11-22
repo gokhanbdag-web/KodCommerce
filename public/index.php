@@ -96,6 +96,17 @@ if ($path === 'api/logout' && $method === 'POST') {
 }
 
 $_SESSION['csrf'] ??= bin2hex(random_bytes(32));
+if ($path === 'api/pages/home' && $method === 'GET') {
+    if (!Auth::user() || Auth::user()['role'] !== 'administrator') {
+        jsonResponse(['error' => 'Forbidden'], 403);
+    }
+    try {
+        $page = \KodCommerce\Support\Pages::home();
+        jsonResponse(['ok' => true, 'title' => $page['title'] ?? 'Homepage', 'layout' => $page ? json_decode($page['layout_json'], true, 512, JSON_THROW_ON_ERROR) : []]);
+    } catch (\Throwable $error) {
+        jsonResponse(['error' => 'Unable to load homepage'], 500);
+    }
+}
 if ($path === 'api/pages/home' && $method === 'POST') {
     if (!Auth::user() || Auth::user()['role'] !== 'administrator') {
         jsonResponse(['error' => 'Forbidden'], 403);
@@ -136,7 +147,7 @@ if (($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'XMLHttpRequest') {
         jsonResponse(['error' => t('Authentication required')], 401);
     }
     ob_start();
-    require dirname(__DIR__) . '/views/placeholder.php';
+    require dirname(__DIR__) . ($selected === 'content-management/page-builder' ? '/views/page-builder.php' : '/views/placeholder.php');
     jsonResponse(['html' => ob_get_clean(), 'title' => t($label)]);
 }
 require dirname(__DIR__) . '/views/layout.php';
