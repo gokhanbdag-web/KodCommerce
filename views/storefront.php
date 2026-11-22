@@ -13,11 +13,7 @@
  <div class="container d-flex align-items-center gap-3 py-3">
   <a href="/" class="navbar-brand fw-bold me-auto">KodCommerce</a>
   <nav aria-label="Main navigation"><a href="/" class="text-decoration-none">Home</a></nav>
-  <?php if (\KodCommerce\Support\Auth::user()): ?>
-  <a class="btn btn-outline-primary" href="/admin/dashboard/overview">Administration</a>
-  <?php else: ?>
   <button class="btn btn-outline-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#accountDrawer" aria-controls="accountDrawer" aria-label="Open account">Account</button>
-  <?php endif; ?>
  </div>
 </header>
 <main class="flex-grow-1">
@@ -41,8 +37,8 @@
    <button class="btn btn-primary" type="submit">Sign in</button>
   </form>
   <div id="accountLinks" <?= \KodCommerce\Support\Auth::user() ? '' : 'hidden' ?>>
-   <p>Signed in as administrator</p>
-   <a class="d-block mb-3" href="/admin/dashboard/overview">Open administration</a>
+   <p id="accountRole"><?= e(\KodCommerce\Support\Auth::user()['role'] ?? '') ?></p>
+   <a id="adminAccountLink" class="d-block mb-3" href="/admin/dashboard/overview" <?= (\KodCommerce\Support\Auth::user()['role'] ?? '') === 'administrator' ? '' : 'hidden' ?>>Open administration</a>
    <button class="btn btn-outline-danger" id="logoutButton" type="button">Sign out</button>
   </div>
  </div>
