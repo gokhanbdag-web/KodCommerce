@@ -313,3 +313,45 @@ msgstr ""
 
 msgid "Sign in to access the administration panel."
 msgstr ""
+
+msgid "Access denied"
+msgstr ""
+
+msgid "KodCommerce Setup"
+msgstr ""
+
+msgid "KodCommerce — Initial setup"
+msgstr ""
+
+msgid "Configure your MySQL database and create the first administrator. Existing installations are preserved."
+msgstr ""
+
+msgid "MySQL connection"
+msgstr ""
+
+msgid "Database host"
+msgstr ""
+
+msgid "Port"
+msgstr ""
+
+msgid "Database name"
+msgstr ""
+
+msgid "Database user"
+msgstr ""
+
+msgid "Database password"
+msgstr ""
+
+msgid "Test connection"
+msgstr ""
+
+msgid "Administrator email"
+msgstr ""
+
+msgid "Administrator password (12 characters minimum)"
+msgstr ""
+
+msgid "Install KodCommerce"
+msgstr ""

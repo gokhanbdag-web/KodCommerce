@@ -33,3 +33,7 @@ document.querySelector('#logoutButton').addEventListener('click', async () => {
     accountLinks.hidden = true;
   } catch (_) { /* Preserve current UI on network failure. */ }
 });
+
+if (new URLSearchParams(location.search).get('login') === '1' && !loginForm.hidden) {
+  bootstrap.Offcanvas.getOrCreateInstance(document.querySelector('#accountDrawer')).show();
+}

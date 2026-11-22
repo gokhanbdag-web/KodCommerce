@@ -26,6 +26,8 @@ jobs:
         run: find app public views -name '*.php' -print0 | xargs -0 -n1 php -l
       - name: Smoke test installer, AJAX login and storefront
         run: bash tests/smoke.sh
+      - name: Verify gettext catalog coverage
+        run: python3 tests/check_gettext.py
       - name: Compile translation catalogs
         run: |
           sudo apt-get update -qq

@@ -16,6 +16,10 @@ test -n "$csrf"
 curl -fsS -b /tmp/kodcommerce-cookie -c /tmp/kodcommerce-cookie -d "csrf=$csrf" -d 'db_host=127.0.0.1' -d 'db_port=3306' -d 'db_name=kodcommerce_test' -d 'db_user=kodcommerce' -d 'db_password=testing123' --data-urlencode 'email=admin@example.test' --data-urlencode 'password=correct-horse-battery-staple' http://127.0.0.1:8765/install | grep -q '"ok":true'
 curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/ | grep -q 'Homepage content can be published'
 curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/ | grep -q 'accountDrawer'
+# Unauthenticated visitors must never receive the admin navigation shell.
+test "$(curl -s -o /dev/null -w '%{http_code}' -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/admin/dashboard/overview)" = '302'
+curl -fsSI -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/admin/dashboard/overview | grep -qi 'location: /?login=1'
+test "$(curl -s -o /dev/null -w '%{http_code}' -b /tmp/kodcommerce-cookie -H 'X-Requested-With: XMLHttpRequest' http://127.0.0.1:8765/admin/dashboard/overview)" = '401'
 curl -fsS -L -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/install | grep -q 'Homepage content can be published'
 csrf=$(curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/ | sed -n 's/.*name="csrf-token" content="\([^"]*\)".*/\1/p' | head -1)
 test -n "$csrf"
