@@ -451,3 +451,48 @@ msgstr "akışkan"
 
 msgid "full"
 msgstr "tam genişlik"
+
+msgid "Add New Page"
+msgstr "Yeni Sayfa Ekle"
+
+msgid "Title"
+msgstr "Başlık"
+
+msgid "Slug"
+msgstr "Kısa Ad"
+
+msgid "Status"
+msgstr "Durum"
+
+msgid "Actions"
+msgstr "İşlemler"
+
+msgid "Edit"
+msgstr "Düzenle"
+
+msgid "Edit Page"
+msgstr "Sayfayı Düzenle"
+
+msgid "Back to Pages"
+msgstr "Sayfalara Dön"
+
+msgid "Page not found"
+msgstr "Sayfa bulunamadı"
+
+msgid "Use the visual editor to arrange this page."
+msgstr "Bu sayfayı düzenlemek için görsel editörü kullanın."
+
+msgid "Save Page"
+msgstr "Sayfayı Kaydet"
+
+msgid "Draft"
+msgstr "Taslak"
+
+msgid "Published"
+msgstr "Yayımlandı"
+
+msgid "Page saved"
+msgstr "Sayfa kaydedildi"
+
+msgid "Unable to save page"
+msgstr "Sayfa kaydedilemedi"
