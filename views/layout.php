@@ -7,7 +7,7 @@
 <title><?= e(t('KodCommerce Administration')) ?></title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script type="module" src="/assets/js/admin.js"></script>
+<script type="module" src="/assets/js/admin.js?v=<?= rawurlencode((string) filemtime(__DIR__ . '/../public/assets/js/admin.js')) ?>"></script>
 </head>
 <body>
 <header class="navbar bg-body-tertiary border-bottom sticky-top">
