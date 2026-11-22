@@ -56,13 +56,13 @@ function preview() {
  root.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 async function save() {
- const body=new FormData();body.set('csrf',document.querySelector('meta[name="csrf-token"]').content);body.set('title',document.querySelector('#builderPageTitle').value);body.set('layout',JSON.stringify(layout));
- try {const response=await fetch('/api/pages/home',{method:'POST',body,credentials:'same-origin'});const result=await response.json();status(response.ok?translate('Homepage published. View it at /'):(result.error||translate('Save failed')),!response.ok);}
+ const body=new FormData();body.set('id',document.querySelector('#pageBuilder').dataset.pageId||'');body.set('slug',document.querySelector('#builderSlug').value);body.set('status',document.querySelector('#builderPublishStatus').value);body.set('csrf',document.querySelector('meta[name="csrf-token"]').content);body.set('title',document.querySelector('#builderPageTitle').value);body.set('layout',JSON.stringify(layout));
+ try {const response=await fetch('/api/pages',{method:'POST',body,credentials:'same-origin'});const result=await response.json();if(response.ok){document.querySelector('#pageBuilder').dataset.pageId=String(result.id);history.replaceState({},'', '/admin/content-management/pages?edit='+result.id);}status(response.ok?translate('Page saved'):(result.error||translate('Save failed')),!response.ok);}
  catch(e){status(translate('Unable to save homepage'),true);}
 }
 async function initialize() {
  const root=document.querySelector('#pageBuilder');if(!root||root.dataset.initialized)return;root.dataset.initialized='true';
- try {const response=await fetch('/api/pages/home',{credentials:'same-origin'});if(!response.ok)throw Error(translate('Unable to load page'));const data=await response.json();layout=data.layout||[];document.querySelector('#builderPageTitle').value=data.title||'Homepage';loaded=true;render();}
+ try {layout=JSON.parse(root.dataset.layout||'[]');render();}
  catch(e){status(translate('Unable to load saved layout'),true);}
 }
 document.addEventListener('click',e=>{
