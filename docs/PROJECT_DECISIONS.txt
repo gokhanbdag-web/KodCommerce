@@ -107,3 +107,12 @@ Pending details
 - Blog post creation and editing screens must NOT use the visual drag-and-drop page builder.
 - The WPBakery-style row/column/widget editor is for Page Management, not Blog Management.
 - Blog posts use a separate, conventional WordPress-like post editing workflow; the exact text editor implementation has not yet been specified.
+
+16. Independent CMS architecture (confirmed)
+- KodCommerce must be fully independent of WordPress at runtime and in its core architecture.
+- Recreate WordPress-like CMS functionality and familiar administration workflows using original PHP implementation, not by renaming or bundling the WordPress core.
+- The target includes WordPress-like page management, blog management, media management, user/role administration, PO/MO localization, and an extensible plugin/module architecture, subject to further feature specifications.
+- E-commerce, orders, payments and marketplace integrations should be developed as modular KodCommerce components.
+- Do not copy WordPress proprietary branding, artwork, or third-party assets; respect applicable open-source licenses if any external code is incorporated.
+- Preserve the previously agreed Bootstrap-only styling constraint and custom page-builder requirements.
+- This architectural decision supersedes any earlier suggestion to use WordPress as the underlying engine.
