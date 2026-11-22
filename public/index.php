@@ -80,6 +80,10 @@ if ($path === 'api/logout' && $method === 'POST') {
 }
 
 $_SESSION['csrf'] ??= bin2hex(random_bytes(32));
+if ($path === '' && $method === 'GET') {
+    require dirname(__DIR__) . '/views/storefront.php';
+    exit;
+}
 $selected = str_starts_with($path, 'admin/') ? substr($path, 6) : 'dashboard/overview';
 $pages = Navigation::pages();
 if (!isset($pages[$selected])) {
