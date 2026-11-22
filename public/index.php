@@ -32,6 +32,33 @@ function jsonResponse(array $data, int $status = 200): never {
 
 $path = trim((string) parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH), '/');
 $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+if (!\KodCommerce\Support\Installation::installed()) {
+    if ($path === 'install' && $method === 'POST') {
+        if (!hash_equals($_SESSION['csrf'] ?? '', (string) ($_POST['csrf'] ?? ''))) {
+            jsonResponse(['error' => 'Invalid security token'], 419);
+        }
+        try {
+            \KodCommerce\Support\Installation::install(trim((string) ($_POST['email'] ?? '')), (string) ($_POST['password'] ?? ''));
+            jsonResponse(['ok' => true]);
+        } catch (\Throwable $error) {
+            jsonResponse(['error' => $error->getMessage()], 422);
+        }
+    }
+    if ($path === 'install' && $method === 'GET') {
+        $_SESSION['csrf'] ??= bin2hex(random_bytes(32));
+        require dirname(__DIR__) . '/views/install.php';
+        exit;
+    }
+    if (str_starts_with($path, 'api/')) {
+        jsonResponse(['error' => 'Installation required'], 503);
+    }
+    header('Location: /install', true, 302);
+    exit;
+}
+if ($path === 'install') {
+    header('Location: /', true, 302);
+    exit;
+}
 if ($path === 'api/login' && $method === 'POST') {
     if (!hash_equals($_SESSION['csrf'] ?? '', (string) ($_POST['csrf'] ?? ''))) {
         jsonResponse(['error' => t('Invalid security token')], 419);
