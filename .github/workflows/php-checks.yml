@@ -24,6 +24,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Validate PHP syntax
         run: find app public views -name '*.php' -print0 | xargs -0 -n1 php -l
+      - name: Validate Page Builder JavaScript syntax
+        run: node --check public/assets/js/page-builder.js
       - name: Smoke test installer, AJAX login and storefront
         run: bash tests/smoke.sh
       - name: Verify gettext catalog coverage
