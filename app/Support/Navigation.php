@@ -22,7 +22,7 @@ final class Navigation
             'Branch Management' => ['Branches', 'Branch Staff', 'Branch Inventory'],
             'E-Commerce' => ['Products', 'Categories', 'Orders', 'Customers'],
             'Marketplace Integrations' => ['Trendyol', 'Hepsiburada', 'Ciceksepeti', 'Pazarama', 'PTTAVM'],
-            'Content Management' => ['Pages', 'Page Builder'],
+            'Content Management' => ['Pages'],
             'Theme Management' => ['Header Management', 'Hero Management', 'Footer Management', 'Typography', 'Colors'],
             'Menu Management' => ['Menus'],
             'Blog Management' => ['Posts', 'Blog Categories', 'Tags'],
