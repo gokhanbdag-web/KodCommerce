@@ -117,17 +117,17 @@ if ($path === 'api/pages' && $method === 'POST') {
             throw new RuntimeException('Invalid layout');
         }
         $id = filter_var($_POST['id'] ?? null, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]) ?: null;
-        $pageId = \\KodCommerce\\Support\\Pages::save($id, trim((string) ($_POST['title'] ?? '')), (string) ($_POST['slug'] ?? ''), (string) ($_POST['status'] ?? 'draft'), $layout);
+        $pageId = \KodCommerce\Support\Pages::save($id, trim((string) ($_POST['title'] ?? '')), (string) ($_POST['slug'] ?? ''), (string) ($_POST['status'] ?? 'draft'), $layout);
         jsonResponse(['ok' => true, 'id' => $pageId]);
-    } catch (\\JsonException | \\RuntimeException $error) {
+    } catch (\JsonException | \RuntimeException $error) {
         jsonResponse(['error' => $error->getMessage()], 422);
-    } catch (\\PDOException $error) {
+    } catch (\PDOException $error) {
         jsonResponse(['error' => t('Unable to save page')], 422);
     }
 }
 if ($method === 'GET' && str_starts_with($path, 'pages/')) {
     $slug = substr($path, 6);
-    $page = \\KodCommerce\\Support\\Pages::published($slug);
+    $page = \KodCommerce\Support\Pages::published($slug);
     if (!$page) { http_response_code(404); exit(t('Page not found')); }
     require dirname(__DIR__) . '/views/public-page.php';
     exit;
