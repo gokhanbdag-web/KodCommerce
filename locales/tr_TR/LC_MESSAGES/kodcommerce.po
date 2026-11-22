@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: KodCommerce 0.1\\n"
-"Content-Type: text/plain; charset=UTF-8\\n"
-"Content-Transfer-Encoding: 8bit\\n"
-"Language: tr_TR\\n"
+"Project-Id-Version: KodCommerce 0.1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: tr_TR\n"
 
 msgid "Dashboard"
 msgstr "Gösterge Paneli"
