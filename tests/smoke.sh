@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euxo pipefail
+set -euo pipefail
 php -m | grep -i '^pdo_mysql$' >/dev/null
 mkdir -p storage
 test ! -e storage/database.php
@@ -30,7 +30,7 @@ curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/admin/content-managem
 curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/admin/content-management/pages | grep 'content-management/pages' >/dev/null
 ! curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/admin/content-management/pages | grep 'href="/admin/content-management/page-builder"' >/dev/null
 curl -fsS -b /tmp/kodcommerce-cookie -H 'X-Requested-With: XMLHttpRequest' 'http://127.0.0.1:8765/admin/content-management/pages?new=1' | grep 'builderRows' >/dev/null
-csrf=$(curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/ | sed -n 's/.*name="csrf-token" content="\\([^"]*\\)".*/\\1/p' | head -1)
+# Reuse the session CSRF token obtained before login.
 test -n "$csrf"
 curl -fsS -b /tmp/kodcommerce-cookie -d "csrf=$csrf" --data-urlencode 'title=About Us' -d 'slug=about-us' -d 'status=published' --data-urlencode 'layout=[{"width":"contained","columns":[{"span":12,"widgets":[{"type":"heading","text":"Published page smoke test"}]}]}]' http://127.0.0.1:8765/api/pages | grep '"ok":true' >/dev/null
 curl -fsS http://127.0.0.1:8765/pages/about-us | grep 'Published page smoke test' >/dev/null
