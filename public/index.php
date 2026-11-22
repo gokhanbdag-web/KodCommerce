@@ -75,6 +75,14 @@ if ($path === 'install') {
     header('Location: /', true, 302);
     exit;
 }
+// Never render an administration shell or its navigation to unauthenticated visitors.
+if (str_starts_with($path, 'admin/') && !Auth::user()) {
+    if (($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'XMLHttpRequest') {
+        jsonResponse(['error' => t('Authentication required')], 401);
+    }
+    header('Location: /?login=1', true, 302);
+    exit;
+}
 if ($path === 'api/login' && $method === 'POST') {
     if (!hash_equals($_SESSION['csrf'] ?? '', (string) ($_POST['csrf'] ?? ''))) {
         jsonResponse(['error' => t('Invalid security token')], 419);
@@ -129,6 +137,7 @@ if ($path !== '' && str_starts_with($path, 'admin/') && !Auth::allowed($selected
         jsonResponse(['error' => t('Authentication required')], 401);
     }
     http_response_code(403);
+    exit(t('Access denied'));
 }
 [$group, $label] = $pages[$selected];
 if (($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'XMLHttpRequest') {
