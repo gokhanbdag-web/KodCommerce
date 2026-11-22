@@ -1,6 +1,6 @@
 <?php
 $builderTranslations = [];
-foreach (['Widget','Type','Content','Column','Span','+ Widget','Row','Width','Remove row','+ Column','Preview (unsaved)','Homepage published. View it at /','Page saved','Save failed','Unable to save homepage','Unable to load page','Unable to load saved layout','heading','text','button','contained','fluid','full'] as $message) {
+foreach (['Widget','Type','Content','Column','Span','+ Widget','Row','Width','Remove row','+ Column','Preview (unsaved)','Homepage published. View it at /','Page saved','Save failed','Unable to save homepage','Unable to load page','Unable to load saved layout','heading','text','button','contained','fluid','full','Drag to another column','Drop widgets here','Duplicate widget','Move column left','Move column right'] as $message) {
     $builderTranslations[$message] = t($message);
 }
 ?>
@@ -22,7 +22,7 @@ foreach (['Widget','Type','Content','Column','Span','+ Widget','Row','Width','Re
    </div></div>
   </div>
   <div class="col-lg-4"><div class="card mb-3"><div class="card-body"><h2 class="h6"><?= e(t('Publish settings')) ?></h2><p class="small text-secondary mb-2"><?= e(t('Draft pages are private. Published pages are visible to everyone.')) ?></p><p class="small mb-0"><?= e(t('Save as draft while editing, then select Published and save to go live.')) ?></p></div></div><div class="card"><div class="card-body">
-   <h2 class="h6"><?= e(t('Widget library')) ?></h2><p class="small text-secondary"><?= e(t('Add a widget to any column. Drag cards to reorder within a column, or use the move buttons.')) ?></p>
+   <h2 class="h6"><?= e(t('Widget library')) ?></h2><p class="small text-secondary"><?= e(t('Drag widgets between columns, including empty columns. Use arrows to reorder columns, or duplicate widgets.')) ?></p>
    <p class="small mb-1"><?= e(t('Available: Heading, Text, Button')) ?></p>
    <p class="small mb-0"><?= e(t('Choose row width and column span (1–12) for Bootstrap layouts.')) ?></p>
   </div></div></div>
