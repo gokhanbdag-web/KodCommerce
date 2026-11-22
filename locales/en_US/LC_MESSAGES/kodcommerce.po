@@ -496,3 +496,24 @@ msgstr ""
 
 msgid "Unable to save page"
 msgstr ""
+
+msgid "Unsaved changes"
+msgstr ""
+
+msgid "View published page"
+msgstr ""
+
+msgid "Publish settings"
+msgstr ""
+
+msgid "Draft pages are private. Published pages are visible to everyone."
+msgstr ""
+
+msgid "Save as draft while editing, then select Published and save to go live."
+msgstr ""
+
+msgid "Last updated"
+msgstr ""
+
+msgid "View"
+msgstr ""

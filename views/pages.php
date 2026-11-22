@@ -11,11 +11,11 @@ $editorOpen = isset($_GET['new']) || $editId !== null;
   <a data-admin-link class="btn btn-primary" href="/admin/content-management/pages?new=1"><?= e(t('Add New Page')) ?></a>
  </div>
  <div class="card"><div class="table-responsive"><table class="table table-hover mb-0">
- <thead><tr><th><?= e(t('Title')) ?></th><th><?= e(t('Slug')) ?></th><th><?= e(t('Status')) ?></th><th><?= e(t('Actions')) ?></th></tr></thead>
+ <thead><tr><th><?= e(t('Title')) ?></th><th><?= e(t('Slug')) ?></th><th><?= e(t('Status')) ?></th><th><?= e(t('Last updated')) ?></th><th><?= e(t('Actions')) ?></th></tr></thead>
  <tbody>
  <?php foreach (Pages::all() as $item): ?>
  <tr><td><?= e($item['title']) ?></td><td><?= e($item['slug']) ?></td><td><?= e(t(ucfirst($item['status']))) ?></td>
- <td><a data-admin-link href="/admin/content-management/pages?edit=<?= (int)$item['id'] ?>"><?= e(t('Edit')) ?></a></td></tr>
+ <td><?= e($item['updated_at']) ?></td><td><a data-admin-link href="/admin/content-management/pages?edit=<?= (int)$item['id'] ?>"><?= e(t('Edit')) ?></a><?php if ($item['status'] === 'published'): ?> · <a href="/pages/<?= e($item['slug']) ?>" target="_blank" rel="noopener"><?= e(t('View')) ?></a><?php endif; ?></td></tr>
  <?php endforeach; ?>
  </tbody></table></div></div>
 <?php elseif ($editId !== null && !$editing): ?>
