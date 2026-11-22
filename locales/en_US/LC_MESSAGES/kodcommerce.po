@@ -517,3 +517,21 @@ msgstr ""
 
 msgid "View"
 msgstr ""
+
+msgid "Drag to another column"
+msgstr ""
+
+msgid "Drop widgets here"
+msgstr ""
+
+msgid "Duplicate widget"
+msgstr ""
+
+msgid "Move column left"
+msgstr ""
+
+msgid "Move column right"
+msgstr ""
+
+msgid "Drag widgets between columns, including empty columns. Use arrows to reorder columns, or duplicate widgets."
+msgstr ""
