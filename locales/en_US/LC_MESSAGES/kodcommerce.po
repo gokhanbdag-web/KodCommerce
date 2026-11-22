@@ -355,3 +355,99 @@ msgstr ""
 
 msgid "Install KodCommerce"
 msgstr ""
+
+msgid "Build your homepage with rows, columns and widgets."
+msgstr ""
+
+msgid "Preview"
+msgstr ""
+
+msgid "Publish homepage"
+msgstr ""
+
+msgid "Page title"
+msgstr ""
+
+msgid "Homepage"
+msgstr ""
+
+msgid "+ Add row"
+msgstr ""
+
+msgid "Widget library"
+msgstr ""
+
+msgid "Add a widget to any column. Drag cards to reorder within a column, or use the move buttons."
+msgstr ""
+
+msgid "Available: Heading, Text, Button"
+msgstr ""
+
+msgid "Choose row width and column span (1–12) for Bootstrap layouts."
+msgstr ""
+
+msgid "Widget"
+msgstr ""
+
+msgid "Type"
+msgstr ""
+
+msgid "Content"
+msgstr ""
+
+msgid "Column"
+msgstr ""
+
+msgid "Span"
+msgstr ""
+
+msgid "+ Widget"
+msgstr ""
+
+msgid "Row"
+msgstr ""
+
+msgid "Width"
+msgstr ""
+
+msgid "Remove row"
+msgstr ""
+
+msgid "+ Column"
+msgstr ""
+
+msgid "Preview (unsaved)"
+msgstr ""
+
+msgid "Homepage published. View it at /"
+msgstr ""
+
+msgid "Save failed"
+msgstr ""
+
+msgid "Unable to save homepage"
+msgstr ""
+
+msgid "Unable to load page"
+msgstr ""
+
+msgid "Unable to load saved layout"
+msgstr ""
+
+msgid "heading"
+msgstr ""
+
+msgid "text"
+msgstr ""
+
+msgid "button"
+msgstr ""
+
+msgid "contained"
+msgstr ""
+
+msgid "fluid"
+msgstr ""
+
+msgid "full"
+msgstr ""
