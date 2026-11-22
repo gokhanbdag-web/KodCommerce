@@ -80,6 +80,24 @@ if ($path === 'api/logout' && $method === 'POST') {
 }
 
 $_SESSION['csrf'] ??= bin2hex(random_bytes(32));
+if ($path === 'api/pages/home' && $method === 'POST') {
+    if (!Auth::user() || Auth::user()['role'] !== 'administrator') {
+        jsonResponse(['error' => 'Forbidden'], 403);
+    }
+    if (!hash_equals($_SESSION['csrf'], (string) ($_POST['csrf'] ?? ''))) {
+        jsonResponse(['error' => 'Invalid security token'], 419);
+    }
+    try {
+        $layout = json_decode((string) ($_POST['layout'] ?? ''), true, 512, JSON_THROW_ON_ERROR);
+        if (!is_array($layout) || !array_is_list($layout)) {
+            throw new RuntimeException('Invalid layout');
+        }
+        \\KodCommerce\\Support\\Pages::saveHome((string) ($_POST['title'] ?? ''), $layout);
+        jsonResponse(['ok' => true]);
+    } catch (\\Throwable $error) {
+        jsonResponse(['error' => $error->getMessage()], 422);
+    }
+}
 if ($path === '' && $method === 'GET') {
     require dirname(__DIR__) . '/views/storefront.php';
     exit;
