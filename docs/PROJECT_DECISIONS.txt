@@ -29,3 +29,28 @@ Status: Confirmed requirements from conversation; further requirements to follow
 
 Open questions (not yet decided)
 - PHP version, framework/architecture, database, Bootstrap version, supported locales, exact theme-setting mechanism, mobile navigation behavior, and full admin menu structure.
+
+6. Page management and homepage selection
+- Provide WordPress-like page management.
+- Do not hardcode page content or a fixed homepage in application code.
+- All pages, including the homepage, must be created and managed through the page management interface.
+- Administrators select which managed page serves as the homepage, as in WordPress reading/homepage settings.
+
+7. Visual page builder
+- Provide a WPBakery-style visual page editor with a row > column > widget hierarchy.
+- A plus (+) control adds a new row.
+- Each row has a column-layout control at its upper-left corner to select the number/layout of columns.
+- Each column has its own plus (+) control that opens the widget panel.
+- Support text and image widgets, among other future widgets.
+- Row width is configured when the row is added, independently of widget selection. Width/layout choices must include full-width, contained/container, and fluid behavior.
+- Allow the arrangement/containment of columns within a row to be configured independently from the row's outer width.
+- Row background settings can override global theme colors and support either a background color or a background image.
+- Support edge-to-edge banner sections using a row background image with overlaid text widgets.
+- Provide a simple/plain text widget.
+- Provide a distinct styled banner text widget with editable fields: eyebrow (short overline), caption (headline), and description (multiline textarea).
+- Allow the text widget's text color to be selected, including when placed over a background image.
+- IMPORTANT: Width and background settings belong to the ROW, not to the widget selection dialog. Column layout belongs to the ROW's column control. Widget configuration belongs to the selected widget.
+- All editor output must remain consistent with the Bootstrap-only / no external custom CSS requirement. Exact technical approach to dynamic per-row styling is not yet specified.
+
+Pending details
+- Exact set of widgets, responsive column controls, banner typography presets, background-image positioning, content persistence format, and precise interpretation of contained versus fluid column behavior are not yet defined.
