@@ -6,7 +6,7 @@
 <title><?= e($publicPage['title'] ?? 'KodCommerce') ?></title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script defer src="/assets/js/storefront.js"></script>
+<script defer src="/assets/js/storefront.js?v=<?= rawurlencode((string) filemtime(__DIR__ . '/../public/assets/js/storefront.js')) ?>"></script>
 </head>
 <body class="d-flex flex-column min-vh-100">
 <header class="border-bottom bg-white sticky-top">
@@ -37,8 +37,8 @@
    <button class="btn btn-primary" type="submit">Sign in</button>
   </form>
   <div id="accountLinks" <?= \KodCommerce\Support\Auth::user() ? '' : 'hidden' ?>>
-   <p>Signed in as administrator</p>
-   <a class="d-block mb-3" href="/admin/dashboard/overview">Open administration</a>
+   <p id="accountRole"><?= e(\KodCommerce\Support\Auth::user()['role'] ?? '') ?></p>
+   <a id="adminAccountLink" class="d-block mb-3" href="/admin/dashboard/overview" <?= (\KodCommerce\Support\Auth::user()['role'] ?? '') === 'administrator' ? '' : 'hidden' ?>>Open administration</a>
    <button class="btn btn-outline-danger" id="logoutButton" type="button">Sign out</button>
   </div>
  </div>

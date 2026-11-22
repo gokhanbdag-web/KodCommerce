@@ -2,6 +2,8 @@ const loginForm = document.querySelector('#loginForm');
 const accountLinks = document.querySelector('#accountLinks');
 const errorBox = document.querySelector('#loginError');
 const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+const roleLabel = document.querySelector('#accountRole');
+const adminLink = document.querySelector('#adminAccountLink');
 loginForm.addEventListener('submit', async event => {
   event.preventDefault();
   errorBox.textContent = '';
@@ -17,7 +19,8 @@ loginForm.addEventListener('submit', async event => {
     loginForm.hidden = true;
     accountLinks.hidden = false;
     loginForm.reset();
-    window.location.assign('/admin/dashboard/overview');
+    roleLabel.textContent = data.role || '';
+    adminLink.hidden = data.role !== 'administrator';
   } catch (_) { errorBox.textContent = 'Unable to sign in'; }
   finally { button.disabled = false; }
 });
@@ -31,6 +34,8 @@ document.querySelector('#logoutButton').addEventListener('click', async () => {
     csrfMeta.content = data.csrf;
     loginForm.hidden = false;
     accountLinks.hidden = true;
+    roleLabel.textContent = '';
+    adminLink.hidden = true;
   } catch (_) { /* Preserve current UI on network failure. */ }
 });
 
