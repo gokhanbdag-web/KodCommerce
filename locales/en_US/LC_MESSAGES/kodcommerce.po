@@ -535,3 +535,9 @@ msgstr ""
 
 msgid "Drag widgets between columns, including empty columns. Use arrows to reorder columns, or duplicate widgets."
 msgstr ""
+
+msgid "Title and slug are required"
+msgstr ""
+
+msgid "Invalid page slug"
+msgstr ""
