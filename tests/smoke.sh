@@ -36,4 +36,12 @@ test -n "$csrf"
 curl -fsS -b /tmp/kodcommerce-cookie -d "csrf=$csrf" --data-urlencode 'title=About Us' -d 'slug=about-us' -d 'status=published' --data-urlencode 'layout=[{"width":"contained","columns":[{"span":12,"widgets":[{"type":"heading","text":"Published page smoke test"}]}]}]' http://127.0.0.1:8765/api/pages | grep '"ok":true' >/dev/null
 curl -fsS http://127.0.0.1:8765/pages/about-us | grep 'Published page smoke test' >/dev/null
 curl -fsS -b /tmp/kodcommerce-cookie 'http://127.0.0.1:8765/admin/content-management/pages?edit=1' | grep 'builderRows' >/dev/null
-echo 'Installer, login, MySQL Pages CRUD, editor routing and gettext smoke tests passed'
+# A draft must not be visible publicly; publishing exposes it, reverting hides it.
+curl -fsS -b /tmp/kodcommerce-cookie -d "csrf=$csrf" --data-urlencode 'title=Private Draft' -d 'slug=private-draft' -d 'status=draft' --data-urlencode 'layout=[]' http://127.0.0.1:8765/api/pages | grep '"ok":true' >/dev/null
+test "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8765/pages/private-draft)" = '404'
+curl -fsS -b /tmp/kodcommerce-cookie -d "csrf=$csrf" -d 'id=2' --data-urlencode 'title=Private Draft' -d 'slug=private-draft' -d 'status=published' --data-urlencode 'layout=[]' http://127.0.0.1:8765/api/pages | grep '"ok":true' >/dev/null
+test "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8765/pages/private-draft)" = '200'
+curl -fsS -b /tmp/kodcommerce-cookie -d "csrf=$csrf" -d 'id=2' --data-urlencode 'title=Private Draft' -d 'slug=private-draft' -d 'status=draft' --data-urlencode 'layout=[]' http://127.0.0.1:8765/api/pages | grep '"ok":true' >/dev/null
+test "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8765/pages/private-draft)" = '404'
+curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/admin/content-management/pages | grep 'Last updated' >/dev/null
+echo 'Installer, login, MySQL Pages CRUD, draft/publish workflow and gettext smoke tests passed'
