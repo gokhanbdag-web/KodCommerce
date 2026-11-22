@@ -9,6 +9,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Validate PHP syntax
         run: find app public views -name '*.php' -print0 | xargs -0 -n1 php -l
+      - name: Smoke test installer, AJAX login and storefront
+        run: bash tests/smoke.sh
       - name: Compile translation catalogs
         run: |
           sudo apt-get update -qq
