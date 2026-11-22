@@ -47,7 +47,7 @@ loginForm.addEventListener('submit', async (event) => {
     updateCsrf(result.csrf);
     loginForm.hidden = true;
     accountLinks.hidden = false;
-    await navigate('/admin/dashboard/overview');
+    window.location.assign('/admin/dashboard/overview');
   } catch (error) { errorBox.textContent = 'Unable to sign in'; }
 });
 document.querySelector('#logoutButton').addEventListener('click', async () => {
