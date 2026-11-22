@@ -83,9 +83,16 @@ Pending details
 - The page list is the entry point to creating and maintaining pages; page content remains managed rather than hardcoded.
 - Details such as delete confirmation, search, filters, pagination, and list columns have not yet been specified.
 
-12. Content Management > Block Management
-- Add a Block Management submenu entry under the Content Management accordion group, alongside Page Management.
-- Opening Block Management displays two navigation cards: Categories and Blocks.
+12. Content Management > Blog Management
+- Add a Blog Management submenu entry under the Content Management accordion group, alongside Page Management.
+- Opening Blog Management displays two navigation cards: Categories and Blog Posts.
 - Clicking Categories opens a category management page showing existing categories and an Add New Category action.
 - The new-category form must include: Category Image, Category Name, and Category Description.
-- The meaning, editor, and behavior of Blocks, and any additional category fields or actions, have not yet been specified; await further requirements.
+- The details of blog post editing, and any additional category fields or actions, have not yet been specified; await further requirements.
+
+13. Content Management > Blog Management: posts listing (terminology correction)
+- IMPORTANT CORRECTION: The user means BLOG, not BLOCK. The admin section is Blog Management; its two cards are Categories and Blog Posts, not reusable layout blocks.
+- Clicking the Blog Posts card opens a list of previously created blog posts, displayed together with their categories.
+- The posts list must support category filtering and date filtering.
+- Provide an Add New Blog Post button opening a WordPress-like blog post creation interface.
+- Further fields and exact editor behavior are pending the user's continuation.
