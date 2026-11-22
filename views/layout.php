@@ -54,7 +54,7 @@
  </div>
 </div>
 <main id="adminContent" tabindex="-1">
- <?php if (\KodCommerce\Support\Auth::allowed($selected)) { require __DIR__ . '/placeholder.php'; } else { ?>
+ <?php if (\KodCommerce\Support\Auth::allowed($selected)) { require __DIR__ . ($selected === 'content-management/page-builder' ? '/page-builder.php' : '/placeholder.php'); } else { ?>
  <section class="container py-5"><h1 class="h3"><?= e(t('Welcome to KodCommerce')) ?></h1><p><?= e(t('Sign in to access the administration panel.')) ?></p></section>
  <?php } ?>
 </main>
