@@ -12,23 +12,23 @@ final class Auth
 
     public static function attempt(string $email, string $password): bool
     {
-        $expectedEmail = getenv('KODCOMMERCE_ADMIN_EMAIL') ?: '';
-        $hash = getenv('KODCOMMERCE_ADMIN_PASSWORD_HASH') ?: '';
-        if ($expectedEmail === '' || $hash === '' || !hash_equals($expectedEmail, $email) || !password_verify($password, $hash)) {
+        if (!Installation::installed()) {
+            return false;
+        }
+        $stmt = Installation::connection()->prepare('SELECT email, password_hash, role FROM users WHERE email = ? LIMIT 1');
+        $stmt->execute([$email]);
+        $user = $stmt->fetch();
+        if (!$user || !password_verify($password, $user['password_hash'])) {
             return false;
         }
         session_regenerate_id(true);
-        $_SESSION['user'] = ['email' => $email, 'role' => 'administrator'];
+        $_SESSION['user'] = ['email' => $user['email'], 'role' => $user['role']];
         return true;
     }
 
     public static function allowed(string $path): bool
     {
         $user = self::user();
-        if ($user === null) {
-            return false;
-        }
-        // Stage 1 supports only the bootstrap administrator; no fake staff/customer accounts.
-        return $user['role'] === 'administrator' && isset(Navigation::pages()[$path]);
+        return $user !== null && $user['role'] === 'administrator' && isset(Navigation::pages()[$path]);
     }
 }
