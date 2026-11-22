@@ -1,3 +1,4 @@
+import { moveColumn, moveWidget } from './page-layout.mjs';
 const translate = (key) => {
  const root = document.querySelector('#pageBuilder');
  if (!root) return key;
@@ -18,13 +19,13 @@ const widths = ['contained', 'fluid', 'full'];
 const types = ['heading', 'text', 'button'];
 const options = (values, current) => values.map(v => `<option value="${v}" ${v === current ? 'selected' : ''}>${escapeHtml(translate(v))}</option>`).join('');
 const widgetHtml = (w, r, c, i) => `<div class="border rounded p-2 mb-2 bg-body-tertiary" draggable="true" data-widget="${i}" data-row="${r}" data-col="${c}">
- <div class="d-flex flex-wrap gap-1 align-items-center mb-2"><span class="small text-secondary me-auto">☰ ${translate('Widget')} ${i+1}</span><button class="btn btn-sm btn-outline-secondary" data-action="widget-up" data-r="${r}" data-c="${c}" data-i="${i}">↑</button><button class="btn btn-sm btn-outline-secondary" data-action="widget-down" data-r="${r}" data-c="${c}" data-i="${i}">↓</button><button class="btn btn-sm btn-outline-danger" data-action="widget-remove" data-r="${r}" data-c="${c}" data-i="${i}">×</button></div>
+ <div class="d-flex flex-wrap gap-1 align-items-center mb-2"><span class="small text-secondary me-auto" title="${escapeHtml(translate('Drag to another column'))}">☰ ${translate('Widget')} ${i+1}</span><button class="btn btn-sm btn-outline-secondary" data-action="widget-up" data-r="${r}" data-c="${c}" data-i="${i}">↑</button><button class="btn btn-sm btn-outline-secondary" data-action="widget-down" data-r="${r}" data-c="${c}" data-i="${i}">↓</button><button class="btn btn-sm btn-outline-secondary" data-action="widget-duplicate" data-r="${r}" data-c="${c}" data-i="${i}" title="${escapeHtml(translate('Duplicate widget'))}">⧉</button><button class="btn btn-sm btn-outline-danger" data-action="widget-remove" data-r="${r}" data-c="${c}" data-i="${i}">×</button></div>
  <label class="form-label small">${translate('Type')} <select class="form-select form-select-sm" data-field="widget-type" data-r="${r}" data-c="${c}" data-i="${i}">${options(types,w.type)}</select></label>
- <label class="form-label small d-block">${translate('Content')} <textarea class="form-control form-control-sm" rows="2" maxlength="5000" data-field="widget-text" data-r="${r}" data-c="${c}" data-i="${i}">${escapeHtml(w.text)}</textarea></label>
+ <label class="form-label small d-block">${translate('Content')} <textarea class="form-control form-control-sm" rows="4" maxlength="5000" data-field="widget-text" data-r="${r}" data-c="${c}" data-i="${i}">${escapeHtml(w.text)}</textarea></label>
  </div>`;
 const columnHtml = (col,r,c) => `<div class="col-12 col-xl-6"><div class="border rounded p-2 h-100">
- <div class="d-flex flex-wrap gap-1 align-items-center mb-2"><strong class="small me-auto">${translate('Column')} ${c+1}</strong><label class="small">${translate('Span')} <select class="form-select form-select-sm d-inline-block w-auto" data-field="span" data-r="${r}" data-c="${c}">${options(Array.from({length:12},(_,i)=>String(i+1)),String(col.span))}</select></label><button class="btn btn-sm btn-outline-danger" data-action="column-remove" data-r="${r}" data-c="${c}">×</button></div>
- <div data-drop-r="${r}" data-drop-c="${c}">${col.widgets.map((w,i)=>widgetHtml(w,r,c,i)).join('')}</div>
+ <div class="d-flex flex-wrap gap-1 align-items-center mb-2"><strong class="small me-auto">${translate('Column')} ${c+1}</strong><label class="small">${translate('Span')} <select class="form-select form-select-sm d-inline-block w-auto" data-field="span" data-r="${r}" data-c="${c}">${options(Array.from({length:12},(_,i)=>String(i+1)),String(col.span))}</select></label><button class="btn btn-sm btn-outline-secondary" data-action="column-up" data-r="${r}" data-c="${c}" title="${escapeHtml(translate('Move column left'))}">←</button><button class="btn btn-sm btn-outline-secondary" data-action="column-down" data-r="${r}" data-c="${c}" title="${escapeHtml(translate('Move column right'))}">→</button><button class="btn btn-sm btn-outline-danger" data-action="column-remove" data-r="${r}" data-c="${c}">×</button></div>
+ <div class="rounded p-1" data-drop-r="${r}" data-drop-c="${c}" style="min-height:3rem" aria-label="${escapeHtml(translate('Drop widgets here'))}">${col.widgets.map((w,i)=>widgetHtml(w,r,c,i)).join('')}${col.widgets.length ? '' : `<p class="small text-secondary mb-0" data-drop-empty="true">${escapeHtml(translate('Drop widgets here'))}</p>`}</div>
  <div class="d-flex gap-1 flex-wrap"><select class="form-select form-select-sm w-auto" data-new-type-r="${r}" data-new-type-c="${c}">${options(types,'text')}</select><button class="btn btn-sm btn-outline-primary" data-action="widget-add" data-r="${r}" data-c="${c}">${translate('+ Widget')}</button></div>
  </div></div>`;
 function render() {
@@ -51,8 +52,11 @@ function act(el) {
  if(action==='row-down')move(layout,r,1);
  if(action==='column-add'&&row.columns.length<12)row.columns.push({span:6,widgets:[]});
  if(action==='column-remove')row.columns.splice(c,1);
+ if(action==='column-up')moveColumn(layout,r,c,c-1);
+ if(action==='column-down')moveColumn(layout,r,c,c+1);
  if(action==='widget-add'&&column.widgets.length<30)column.widgets.push({type:document.querySelector(`[data-new-type-r="${r}"][data-new-type-c="${c}"]`).value,text:''});
  if(action==='widget-remove')column.widgets.splice(i,1);
+ if(action==='widget-duplicate'&&column.widgets.length<30)column.widgets.splice(i+1,0,{...column.widgets[i]});
  if(action==='widget-up')move(column.widgets,i,-1);
  if(action==='widget-down')move(column.widgets,i,1);
  render();markDirty();
@@ -85,10 +89,43 @@ document.addEventListener('click',e=>{
 document.addEventListener('change',e=>{if(e.target.closest('#pageBuilder')&&e.target.dataset.field){updateField(e.target);markDirty();}});
 document.addEventListener('input',e=>{if(e.target.closest('#pageBuilder')&&e.target.dataset.field==='widget-text'){updateField(e.target);markDirty();}});
 let dragging=null;
-document.addEventListener('dragstart',e=>{const card=e.target.closest('#pageBuilder [data-widget]');if(card){dragging={r:Number(card.dataset.row),c:Number(card.dataset.col),i:Number(card.dataset.widget)};e.dataTransfer.effectAllowed='move';}});
-document.addEventListener('dragover',e=>{if(dragging&&e.target.closest('#pageBuilder [data-drop-r]'))e.preventDefault();});
-document.addEventListener('drop',e=>{const target=e.target.closest('#pageBuilder [data-widget]');if(!dragging||!target)return;e.preventDefault();const r=Number(target.dataset.row),c=Number(target.dataset.col),i=Number(target.dataset.widget);if(dragging.r===r&&dragging.c===c){move(layout[r].columns[c].widgets,dragging.i,i-dragging.i);render();markDirty();}dragging=null;});
-document.addEventListener('dragend',()=>dragging=null);
+document.addEventListener('dragstart',e=>{
+ const card=e.target.closest('#pageBuilder [data-widget]');
+ if(!card)return;
+ if(e.target.closest('textarea, input, select, button')){e.preventDefault();return;}
+ dragging={r:Number(card.dataset.row),c:Number(card.dataset.col),i:Number(card.dataset.widget)};
+ e.dataTransfer.effectAllowed='move';
+ e.dataTransfer.setData('text/plain','page-widget');
+});
+document.addEventListener('dragover',e=>{
+ if(!dragging)return;
+ const zone=e.target.closest('#pageBuilder [data-drop-r]');
+ if(zone){e.preventDefault();e.dataTransfer.dropEffect='move';zone.classList.add('border','border-primary');}
+});
+document.addEventListener('dragleave',e=>{
+ const zone=e.target.closest('#pageBuilder [data-drop-r]');
+ if(zone&&!zone.contains(e.relatedTarget))zone.classList.remove('border','border-primary');
+});
+document.addEventListener('drop',e=>{
+ if(!dragging)return;
+ const zone=e.target.closest('#pageBuilder [data-drop-r]');
+ if(!zone)return;
+ e.preventDefault();
+ const row=Number(zone.dataset.dropR),col=Number(zone.dataset.dropC);
+ const card=e.target.closest('[data-widget]');
+ let index=layout[row].columns[col].widgets.length;
+ if(card){
+  index=Number(card.dataset.widget);
+  if(e.clientY>=card.getBoundingClientRect().top+card.getBoundingClientRect().height/2)index++;
+ }
+ if(moveWidget(layout,dragging.r,dragging.c,dragging.i,row,col,index)){render();markDirty();}
+ zone.classList.remove('border','border-primary');
+ dragging=null;
+});
+document.addEventListener('dragend',()=>{
+ dragging=null;
+ document.querySelectorAll('#pageBuilder [data-drop-r]').forEach(el=>el.classList.remove('border','border-primary'));
+});
 new MutationObserver(()=>initialize()).observe(document.querySelector('#adminContent'),{childList:true});
 initialize();
 
