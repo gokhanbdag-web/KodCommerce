@@ -7,6 +7,13 @@ const translate = (key) => {
 const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let layout = [];
 let loaded = false;
+let dirty = false;
+let initialTitle = '';
+let initialSlug = '';
+const slugify = value => value.toLocaleLowerCase('en-US').normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0,190);
+function markDirty() { dirty = true; const el = document.querySelector('#builderDirty'); if (el) el.hidden = false; }
+function markClean() { dirty = false; const el = document.querySelector('#builderDirty'); if (el) el.hidden = true; }
+
 const widths = ['contained', 'fluid', 'full'];
 const types = ['heading', 'text', 'button'];
 const options = (values, current) => values.map(v => `<option value="${v}" ${v === current ? 'selected' : ''}>${escapeHtml(translate(v))}</option>`).join('');
@@ -27,7 +34,7 @@ function render() {
  <button class="btn btn-sm btn-outline-secondary" data-action="row-up" data-r="${r}">↑</button><button class="btn btn-sm btn-outline-secondary" data-action="row-down" data-r="${r}">↓</button><button class="btn btn-sm btn-outline-danger" data-action="row-remove" data-r="${r}">${translate('Remove row')}</button>
  </div><div class="card-body"><div class="row g-2">${row.columns.map((col,c)=>columnHtml(col,r,c)).join('')}</div><button class="btn btn-sm btn-outline-primary mt-2" data-action="column-add" data-r="${r}">${translate('+ Column')}</button></div></div>`).join('');
 }
-function status(message, error=false) { const el=document.querySelector('#builderStatus'); if(el) {el.text${translate('Content')}=message;el.className=error?'mt-3 text-danger':'mt-3 text-success';} }
+function status(message, error=false) { const el=document.querySelector('#builderStatus'); if(el) {el.textContent=message;el.className=error?'mt-3 text-danger':'mt-3 text-success';} }
 function move(items,index,delta){const next=index+delta;if(next<0||next>=items.length)return;[items[index],items[next]]=[items[next],items[index]];}
 function updateField(el) {
  const r=Number(el.dataset.r),c=Number(el.dataset.c),i=Number(el.dataset.i);
@@ -48,39 +55,43 @@ function act(el) {
  if(action==='widget-remove')column.widgets.splice(i,1);
  if(action==='widget-up')move(column.widgets,i,-1);
  if(action==='widget-down')move(column.widgets,i,1);
- render();
+ render();markDirty();
 }
 function preview() {
  const root=document.querySelector('#builderPreview');root.hidden=false;
- root.innerHTML='<h2 class="h5">${translate('Preview (unsaved)')}</h2>'+layout.map(row=>`<section class="${row.width==='contained'?'container': 'container-fluid'} py-3"><div class="row g-3">${row.columns.map(col=>`<div class="col-12 col-lg-${col.span}">${col.widgets.map(w=>w.type==='heading'?`<h2>${escapeHtml(w.text)}</h2>`:w.type==='button'?`<span class="btn btn-primary">${escapeHtml(w.text)}</span>`:`<p>${escapeHtml(w.text).replace(/\n/g,'<br>')}</p>`).join('')}</div>`).join('')}</div></section>`).join('');
+ root.innerHTML=`<h2 class="h5">${escapeHtml(translate('Preview (unsaved)'))}</h2>`+layout.map(row=>`<section class="${row.width==='contained'?'container': 'container-fluid'} py-3"><div class="row g-3">${row.columns.map(col=>`<div class="col-12 col-lg-${col.span}">${col.widgets.map(w=>w.type==='heading'?`<h2>${escapeHtml(w.text)}</h2>`:w.type==='button'?`<span class="btn btn-primary">${escapeHtml(w.text)}</span>`:`<p>${escapeHtml(w.text).replace(/\n/g,'<br>')}</p>`).join('')}</div>`).join('')}</div></section>`).join('');
  root.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 async function save() {
  const body=new FormData();body.set('id',document.querySelector('#pageBuilder').dataset.pageId||'');body.set('slug',document.querySelector('#builderSlug').value);body.set('status',document.querySelector('#builderPublishStatus').value);body.set('csrf',document.querySelector('meta[name="csrf-token"]').content);body.set('title',document.querySelector('#builderPageTitle').value);body.set('layout',JSON.stringify(layout));
- try {const response=await fetch('/api/pages',{method:'POST',body,credentials:'same-origin'});const result=await response.json();if(response.ok){document.querySelector('#pageBuilder').dataset.pageId=String(result.id);history.replaceState({},'', '/admin/content-management/pages?edit='+result.id);}status(response.ok?translate('Page saved'):(result.error||translate('Save failed')),!response.ok);}
+ try {const response=await fetch('/api/pages',{method:'POST',body,credentials:'same-origin'});const result=await response.json();if(response.ok){document.querySelector('#pageBuilder').dataset.pageId=String(result.id);history.replaceState({},'', '/admin/content-management/pages?edit='+result.id);markClean();const link=document.querySelector('#builderViewPage');if(link){link.href='/pages/'+encodeURIComponent(document.querySelector('#builderSlug').value);link.hidden=document.querySelector('#builderPublishStatus').value!=='published';}}status(response.ok?translate('Page saved'):(result.error||translate('Save failed')),!response.ok);}
  catch(e){status(translate('Unable to save homepage'),true);}
 }
 async function initialize() {
  const root=document.querySelector('#pageBuilder');if(!root||root.dataset.initialized)return;root.dataset.initialized='true';
- try {layout=JSON.parse(root.dataset.layout||'[]');render();}
+ try {layout=JSON.parse(root.dataset.layout||'[]');render();initialTitle=document.querySelector('#builderPageTitle').value;initialSlug=document.querySelector('#builderSlug').value;}
  catch(e){status(translate('Unable to load saved layout'),true);}
 }
 document.addEventListener('click',e=>{
  const root=e.target.closest('#pageBuilder');if(!root)return;
  const action=e.target.closest('[data-builder-action]');if(action){
- if(action.dataset.builderAction==='add-row'&&layout.length<40){layout.push({width:'contained',columns:[{span:12,widgets:[]}]});render();}
+ if(action.dataset.builderAction==='add-row'&&layout.length<40){layout.push({width:'contained',columns:[{span:12,widgets:[]}]});render();markDirty();}
  if(action.dataset.builderAction==='preview')preview();
  if(action.dataset.builderAction==='save')save();
  return;
  }
  const control=e.target.closest('[data-action]');if(control)act(control);
 });
-document.addEventListener('change',e=>{if(e.target.closest('#pageBuilder')&&e.target.dataset.field)updateField(e.target);});
-document.addEventListener('input',e=>{if(e.target.closest('#pageBuilder')&&e.target.dataset.field==='widget-text')updateField(e.target);});
+document.addEventListener('change',e=>{if(e.target.closest('#pageBuilder')&&e.target.dataset.field){updateField(e.target);markDirty();}});
+document.addEventListener('input',e=>{if(e.target.closest('#pageBuilder')&&e.target.dataset.field==='widget-text'){updateField(e.target);markDirty();}});
 let dragging=null;
 document.addEventListener('dragstart',e=>{const card=e.target.closest('#pageBuilder [data-widget]');if(card){dragging={r:Number(card.dataset.row),c:Number(card.dataset.col),i:Number(card.dataset.widget)};e.dataTransfer.effectAllowed='move';}});
 document.addEventListener('dragover',e=>{if(dragging&&e.target.closest('#pageBuilder [data-drop-r]'))e.preventDefault();});
-document.addEventListener('drop',e=>{const target=e.target.closest('#pageBuilder [data-widget]');if(!dragging||!target)return;e.preventDefault();const r=Number(target.dataset.row),c=Number(target.dataset.col),i=Number(target.dataset.widget);if(dragging.r===r&&dragging.c===c){move(layout[r].columns[c].widgets,dragging.i,i-dragging.i);render();}dragging=null;});
+document.addEventListener('drop',e=>{const target=e.target.closest('#pageBuilder [data-widget]');if(!dragging||!target)return;e.preventDefault();const r=Number(target.dataset.row),c=Number(target.dataset.col),i=Number(target.dataset.widget);if(dragging.r===r&&dragging.c===c){move(layout[r].columns[c].widgets,dragging.i,i-dragging.i);render();markDirty();}dragging=null;});
 document.addEventListener('dragend',()=>dragging=null);
-new MutationObserver(()=>initialize()).observe(document.querySelector('#admin${translate('Content')}'),{childList:true});
+new MutationObserver(()=>initialize()).observe(document.querySelector('#adminContent'),{childList:true});
 initialize();
+
+document.addEventListener('input',e=>{if(!e.target.closest('#pageBuilder'))return;if(e.target.id==='builderPageTitle'){const slug=document.querySelector('#builderSlug');if(slug&&!slug.dataset.manual&&(slug.value===''||slug.value===slugify(initialTitle)))slug.value=slugify(e.target.value);markDirty();}if(e.target.id==='builderSlug'){e.target.dataset.manual='1';markDirty();}});
+document.addEventListener('change',e=>{if(e.target.closest('#pageBuilder')&&e.target.id==='builderPublishStatus'){markDirty();}});
+window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue='';}});
