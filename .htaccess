@@ -1,0 +1,18 @@
+Options -Indexes
+DirectoryIndex index.php index.html
+RewriteEngine On
+
+# GitHub webhook endpoint must remain reachable.
+RewriteRule ^\.well-known/kodcommerce/webhook\.php$ - [L]
+
+# Never expose version control, hidden files, or application sources.
+RewriteRule (^|/)\.(?!well-known(?:/|$)) - [F,L,NC]
+RewriteRule ^(app|views|locales|docs|\.git|\.github)(/|$) - [F,L,NC]
+RewriteRule ^(README\.md|\.gitignore)$ - [F,L,NC]
+RewriteRule ^public/index\.php$ - [F,L,NC]
+
+# Serve public assets and existing files, route all other paths to app.
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+RewriteRule ^ index.php [L]
