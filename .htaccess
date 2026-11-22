@@ -1,4 +1,6 @@
 Options -Indexes
+# ES module imports require a JavaScript MIME type (Apache may not know .mjs).
+AddType text/javascript .mjs
 DirectoryIndex index.php index.html
 RewriteEngine On
 

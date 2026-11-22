@@ -7,7 +7,7 @@ const translate = (key) => {
 };
 const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let layout = [];
-let loaded = false;
+
 let dirty = false;
 let initialTitle = '';
 let initialSlug = '';
@@ -67,14 +67,18 @@ function preview() {
  root.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 async function save() {
+ const title=document.querySelector('#builderPageTitle')?.value.trim();
+ const slug=document.querySelector('#builderSlug')?.value.trim();
+ if(!title||!slug){status(translate('Title and slug are required'),true);return;}
+ if(!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)){status(translate('Invalid page slug'),true);return;}
  const body=new FormData();body.set('id',document.querySelector('#pageBuilder').dataset.pageId||'');body.set('slug',document.querySelector('#builderSlug').value);body.set('status',document.querySelector('#builderPublishStatus').value);body.set('csrf',document.querySelector('meta[name="csrf-token"]').content);body.set('title',document.querySelector('#builderPageTitle').value);body.set('layout',JSON.stringify(layout));
  try {const response=await fetch('/api/pages',{method:'POST',body,credentials:'same-origin'});const result=await response.json();if(response.ok){document.querySelector('#pageBuilder').dataset.pageId=String(result.id);history.replaceState({},'', '/admin/content-management/pages?edit='+result.id);markClean();const link=document.querySelector('#builderViewPage');if(link){link.href='/pages/'+encodeURIComponent(document.querySelector('#builderSlug').value);link.hidden=document.querySelector('#builderPublishStatus').value!=='published';}}status(response.ok?translate('Page saved'):(result.error||translate('Save failed')),!response.ok);}
- catch(e){status(translate('Unable to save homepage'),true);}
+ catch(e){console.error('Page save failed',e);status(translate('Unable to save homepage'),true);}
 }
 async function initialize() {
  const root=document.querySelector('#pageBuilder');if(!root||root.dataset.initialized)return;root.dataset.initialized='true';
- try {layout=JSON.parse(root.dataset.layout||'[]');render();initialTitle=document.querySelector('#builderPageTitle').value;initialSlug=document.querySelector('#builderSlug').value;}
- catch(e){status(translate('Unable to load saved layout'),true);}
+ try {layout=JSON.parse(root.dataset.layout||'[]');if(!Array.isArray(layout))throw new Error('Invalid page layout');render();initialTitle=document.querySelector('#builderPageTitle').value;initialSlug=document.querySelector('#builderSlug').value;}
+ catch(e){console.error('Page editor initialization failed',e);status(translate('Unable to load saved layout'),true);}
 }
 document.addEventListener('click',e=>{
  const root=e.target.closest('#pageBuilder');if(!root)return;

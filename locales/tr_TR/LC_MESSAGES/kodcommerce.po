@@ -535,3 +535,9 @@ msgstr "Sütunu sağa taşı"
 
 msgid "Drag widgets between columns, including empty columns. Use arrows to reorder columns, or duplicate widgets."
 msgstr "Bileşenleri boş sütunlar dahil sütunlar arasında sürükleyin. Oklarla sütunları sıralayın veya bileşenleri çoğaltın."
+
+msgid "Title and slug are required"
+msgstr "Başlık ve kısa bağlantı zorunludur"
+
+msgid "Invalid page slug"
+msgstr "Geçersiz sayfa kısa bağlantısı"
