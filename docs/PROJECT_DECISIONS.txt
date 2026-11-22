@@ -74,3 +74,11 @@ Pending details
 - WordPress-like page management and its visual page editor belong under this Content Management accordion group.
 - The widget architecture must remain extensible: additional widgets can be introduced later as needs arise, without defining the full catalog now.
 - Other Content Management submenu entries and other top-level menu groups have not yet been specified.
+
+11. Content Management > Page Management screen
+- Clicking the Content Management accordion parent reveals the Page Management submenu.
+- Clicking Page Management opens a page listing all previously created pages.
+- Each existing page must have Edit and Delete actions.
+- Provide an Add New Page action that opens the new-page creation screen.
+- The page list is the entry point to creating and maintaining pages; page content remains managed rather than hardcoded.
+- Details such as delete confirmation, search, filters, pagination, and list columns have not yet been specified.
