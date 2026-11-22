@@ -68,3 +68,9 @@ Pending details
 - The Favorites widget dynamically lists products marked as favorites by admins.
 - Provide a 'Best Sellers' widget. The user described this as customer-based; precise aggregation, ranking criteria and scope remain to be defined. Do not conflate this with admin-selected favorites.
 - Preserve the previously requested 'Recently Added Products' widget.
+
+10. Admin menu grouping: Content Management
+- The left-side vertical accordion admin menu must contain a parent group named 'Content Management' (source language English; localized in UI).
+- WordPress-like page management and its visual page editor belong under this Content Management accordion group.
+- The widget architecture must remain extensible: additional widgets can be introduced later as needs arise, without defining the full catalog now.
+- Other Content Management submenu entries and other top-level menu groups have not yet been specified.
