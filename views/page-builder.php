@@ -1,6 +1,6 @@
 <?php
 $builderTranslations = [];
-foreach (['Widget','Type','Content','Column','Span','+ Widget','Row','Width','Remove row','+ Column','Preview (unsaved)','Homepage published. View it at /','Page saved','Save failed','Unable to save homepage','Unable to load page','Unable to load saved layout','heading','text','button','contained','fluid','full','Drag to another column','Drop widgets here','Duplicate widget','Move column left','Move column right'] as $message) {
+foreach (['Widget','Type','Content','Column','Span','+ Widget','Row','Width','Remove row','+ Column','Preview (unsaved)','Homepage published. View it at /','Page saved','Save failed','Unable to save homepage','Unable to load page','Unable to load saved layout','heading','text','button','contained','fluid','full','Drag to another column','Drop widgets here','Duplicate widget','Move column left','Move column right','Title and slug are required','Invalid page slug'] as $message) {
     $builderTranslations[$message] = t($message);
 }
 ?>
