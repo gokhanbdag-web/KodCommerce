@@ -1,9 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html lang="<?= e(substr(I18n::locale(), 0, 2)) ?>">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="csrf-token" content="<?= e($_SESSION['csrf']) ?>">
+<script type="application/json" id="i18n-messages"><?= json_encode(I18n::clientMessages(), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_THROW_ON_ERROR) ?></script>
 <title><?= e(t('KodCommerce Administration')) ?></title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -14,6 +15,13 @@
  <div class="container-fluid">
   <button class="btn btn-outline-secondary" type="button" data-bs-toggle="offcanvas" data-bs-target="#adminNav" aria-controls="adminNav" aria-label="<?= e(t('Open navigation')) ?>">☰</button>
   <a class="navbar-brand" href="/admin/dashboard/overview">KodCommerce</a>
+  <form id="languageForm" class="ms-auto me-2" aria-label="<?= e(t('Language')) ?>">
+   <label class="visually-hidden" for="locale"><?= e(t('Language')) ?></label>
+   <select class="form-select form-select-sm" id="locale" name="locale">
+    <option value="en_US" <?= I18n::locale() === 'en_US' ? 'selected' : '' ?>>English</option>
+    <option value="tr_TR" <?= I18n::locale() === 'tr_TR' ? 'selected' : '' ?>>Türkçe</option>
+   </select>
+  </form>
   <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#accountDrawer" aria-controls="accountDrawer"><?= e(t('Account')) ?></button>
  </div>
 </header>
@@ -24,7 +32,7 @@
   <?php foreach (Navigation::groups() as $name => $labels): $key = Navigation::slug($name); ?>
    <div class="accordion-item">
     <h3 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#nav-<?= e($key) ?>" aria-expanded="false"><?= e(t($name)) ?></button></h3>
-    <div class="accordion-collapse collapse" id="nav-<?= e($key) ?>" data-bs-parent="#navGroups">
+    <div class="accordion-collapse collapse" id="nav-<?= e($key) ?>" >
      <div class="accordion-body p-2">
       <?php foreach ($labels as $item): $route = $key . '/' . Navigation::slug($item); ?>
        <a class="d-block p-2 rounded text-decoration-none" data-admin-link href="/admin/<?= e($route) ?>"><?= e(t($item)) ?></a>

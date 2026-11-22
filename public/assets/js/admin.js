@@ -1,3 +1,5 @@
+const translations = JSON.parse(document.querySelector('#i18n-messages')?.textContent || '{}');
+const t = (message) => translations[message] || message;
 const content = document.querySelector('#adminContent');
 const loginForm = document.querySelector('#loginForm');
 const accountLinks = document.querySelector('#accountLinks');
@@ -17,7 +19,7 @@ async function navigate(url, push = true) {
     bootstrap.Offcanvas.getOrCreateInstance(document.querySelector('#accountDrawer')).show();
     return;
   }
-  if (!response.ok) throw new Error('Navigation failed');
+  if (!response.ok) throw new Error(t('Navigation failed'));
   const data = await response.json();
   content.innerHTML = data.html;
   document.title = data.title + ' — KodCommerce';
@@ -47,7 +49,7 @@ loginForm.addEventListener('submit', async (event) => {
     loginForm.hidden = true;
     accountLinks.hidden = false;
     await navigate('/admin/dashboard/overview');
-  } catch (error) { errorBox.textContent = 'Unable to sign in'; }
+  } catch (error) { errorBox.textContent = t('Unable to sign in'); }
 });
 document.querySelector('#logoutButton').addEventListener('click', async () => {
   const body = new FormData();
@@ -60,4 +62,16 @@ document.querySelector('#logoutButton').addEventListener('click', async () => {
   accountLinks.hidden = true;
   content.replaceChildren();
   history.replaceState({}, '', '/');
+});
+
+document.querySelector('#languageForm').addEventListener('change', async (event) => {
+  if (event.target.name !== 'locale') return;
+  const body = new FormData();
+  body.set('csrf', csrf());
+  body.set('locale', event.target.value);
+  try {
+    const response = await fetch('/api/language', { method: 'POST', body, credentials: 'same-origin' });
+    if (!response.ok) throw new Error(t('Network error'));
+    location.reload();
+  } catch (error) { console.error(error); }
 });
