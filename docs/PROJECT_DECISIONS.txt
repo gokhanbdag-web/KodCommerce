@@ -61,3 +61,10 @@ Pending details
 - The widget system must be extensible to additional commerce widgets as requirements are defined.
 - The styled banner text widget can also be used for CTA (call-to-action) sections; its eyebrow, caption, and description fields remain as previously specified.
 - The exact behavior of favorites (e.g., per-user wishlist vs featured favorites), product sorting, and further widget types are not yet specified.
+
+9. Product merchandising widgets and admin product flag (clarification)
+- The 'Favorites' widget displays products explicitly selected by administrators, NOT each customer's personal wishlist.
+- The product create/edit screen must provide a control to mark or unmark a product as a favorite.
+- The Favorites widget dynamically lists products marked as favorites by admins.
+- Provide a 'Best Sellers' widget. The user described this as customer-based; precise aggregation, ranking criteria and scope remain to be defined. Do not conflate this with admin-selected favorites.
+- Preserve the previously requested 'Recently Added Products' widget.
