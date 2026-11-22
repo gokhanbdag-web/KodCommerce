@@ -1,4 +1,10 @@
-<section class="container-fluid py-4" id="pageBuilder" aria-labelledby="builderTitle">
+<?php
+$builderTranslations = [];
+foreach (['Widget','Type','Content','Column','Span','+ Widget','Row','Width','Remove row','+ Column','Preview (unsaved)','Homepage published. View it at /','Save failed','Unable to save homepage','Unable to load page','Unable to load saved layout','heading','text','button','contained','fluid','full'] as $message) {
+    $builderTranslations[$message] = t($message);
+}
+?>
+<section class="container-fluid py-4" id="pageBuilder" data-translations="<?= e(json_encode($builderTranslations, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR)) ?>" aria-labelledby="builderTitle">
  <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
   <div><h1 id="builderTitle" class="h3 mb-1"><?= e(t('Page Builder')) ?></h1><p class="text-secondary mb-0"><?= e(t('Build your homepage with rows, columns and widgets.')) ?></p></div>
   <div class="d-flex flex-wrap gap-2"><button type="button" class="btn btn-outline-secondary" data-builder-action="preview"><?= e(t('Preview')) ?></button><button type="button" class="btn btn-primary" data-builder-action="save"><?= e(t('Publish homepage')) ?></button></div>
