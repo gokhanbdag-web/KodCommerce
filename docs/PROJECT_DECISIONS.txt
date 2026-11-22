@@ -102,3 +102,8 @@ Pending details
 - Treat WordPress-style page and post creation, editing, listing and management as the reference interaction model, while retaining all previously specified custom visual page builder and Bootstrap-only constraints.
 - Blog means posts/articles, not layout blocks. Do not reintroduce 'Block Management' terminology.
 - Exact WordPress feature parity is not assumed for features not yet discussed; clarify when implementation choices materially differ.
+
+15. Blog editor exception (explicit clarification)
+- Blog post creation and editing screens must NOT use the visual drag-and-drop page builder.
+- The WPBakery-style row/column/widget editor is for Page Management, not Blog Management.
+- Blog posts use a separate, conventional WordPress-like post editing workflow; the exact text editor implementation has not yet been specified.
