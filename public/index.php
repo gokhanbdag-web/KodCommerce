@@ -37,11 +37,27 @@ if (!\KodCommerce\Support\Installation::installed()) {
         if (!hash_equals($_SESSION['csrf'] ?? '', (string) ($_POST['csrf'] ?? ''))) {
             jsonResponse(['error' => 'Invalid security token'], 419);
         }
+        $config = [
+            'host' => trim((string) ($_POST['db_host'] ?? '')),
+            'port' => (int) ($_POST['db_port'] ?? 3306),
+            'database' => trim((string) ($_POST['db_name'] ?? '')),
+            'username' => trim((string) ($_POST['db_user'] ?? '')),
+            'password' => (string) ($_POST['db_password'] ?? ''),
+        ];
         try {
-            \KodCommerce\Support\Installation::install(trim((string) ($_POST['email'] ?? '')), (string) ($_POST['password'] ?? ''));
+            if (($_POST['action'] ?? '') === 'test') {
+                \KodCommerce\Support\Installation::test($config);
+            } else {
+                \KodCommerce\Support\Installation::install(
+                    trim((string) ($_POST['email'] ?? '')),
+                    (string) ($_POST['password'] ?? ''),
+                    $config
+                );
+            }
             jsonResponse(['ok' => true]);
         } catch (\Throwable $error) {
-            jsonResponse(['error' => $error->getMessage()], 422);
+            error_log('KodCommerce installation error: ' . get_class($error));
+            jsonResponse(['error' => 'Database connection or installation failed. Check credentials, database permissions and PHP extensions.'], 422);
         }
     }
     if ($path === 'install' && $method === 'GET') {

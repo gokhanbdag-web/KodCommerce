@@ -4,3 +4,6 @@
 !/storage/logs/.gitkeep
 /public/uploads/*
 !/public/uploads/.gitkeep
+
+/storage/database.php
+/storage/kodcommerce.sqlite*
