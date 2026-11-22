@@ -18,7 +18,13 @@ use KodCommerce\Support\Navigation;
 
 session_set_cookie_params(['httponly' => true, 'secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off', 'samesite' => 'Lax']);
 session_start();
-I18n::boot(getenv('KODCOMMERCE_LOCALE') ?: 'en_US');
+if (!isset($_SESSION['locale'])) {
+    $_SESSION['locale'] = getenv('KODCOMMERCE_LOCALE') ?: 'en_US';
+}
+if (!in_array($_SESSION['locale'], I18n::SUPPORTED, true)) {
+    $_SESSION['locale'] = 'en_US';
+}
+I18n::boot(I18n::locale());
 
 function t(string $message): string { return I18n::translate($message); }
 function e(string $value): string { return htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); }
@@ -32,6 +38,17 @@ function jsonResponse(array $data, int $status = 200): never {
 
 $path = trim((string) parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH), '/');
 $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+if ($path === 'api/language' && $method === 'POST') {
+    if (!hash_equals($_SESSION['csrf'] ?? '', (string) ($_POST['csrf'] ?? ''))) {
+        jsonResponse(['error' => t('Invalid security token')], 419);
+    }
+    $locale = (string) ($_POST['locale'] ?? '');
+    if (!in_array($locale, I18n::SUPPORTED, true)) {
+        jsonResponse(['error' => t('Unsupported language')], 422);
+    }
+    $_SESSION['locale'] = $locale;
+    jsonResponse(['ok' => true, 'locale' => $locale]);
+}
 if ($path === 'api/login' && $method === 'POST') {
     if (!hash_equals($_SESSION['csrf'] ?? '', (string) ($_POST['csrf'] ?? ''))) {
         jsonResponse(['error' => t('Invalid security token')], 419);
