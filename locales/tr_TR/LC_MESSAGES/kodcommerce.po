@@ -12,124 +12,124 @@ msgid "Overview"
 msgstr "Genel Bakış"
 
 msgid "CRM"
-msgstr ""
+msgstr "Müşteri İlişkileri"
 
 msgid "Customers"
 msgstr "Müşteriler"
 
 msgid "Leads"
-msgstr ""
+msgstr "Potansiyel Müşteriler"
 
 msgid "Opportunities"
-msgstr ""
+msgstr "Fırsatlar"
 
 msgid "Activities"
-msgstr ""
+msgstr "Etkinlikler"
 
 msgid "Inventory & Warehouse"
-msgstr ""
+msgstr "Stok ve Depo"
 
 msgid "Inventory"
-msgstr ""
+msgstr "Stok"
 
 msgid "Warehouses"
-msgstr ""
+msgstr "Depolar"
 
 msgid "Stock Movements"
-msgstr ""
+msgstr "Stok Hareketleri"
 
 msgid "Stock Counts"
-msgstr ""
+msgstr "Stok Sayımları"
 
 msgid "Sales & Purchasing"
-msgstr ""
+msgstr "Satış ve Satın Alma"
 
 msgid "Sales"
-msgstr ""
+msgstr "Satışlar"
 
 msgid "Purchases"
-msgstr ""
+msgstr "Satın Almalar"
 
 msgid "Quotations"
-msgstr ""
+msgstr "Teklifler"
 
 msgid "Suppliers"
-msgstr ""
+msgstr "Tedarikçiler"
 
 msgid "Accounting & Finance"
-msgstr ""
+msgstr "Muhasebe ve Finans"
 
 msgid "Accounts"
-msgstr ""
+msgstr "Hesaplar"
 
 msgid "Transactions"
-msgstr ""
+msgstr "İşlemler"
 
 msgid "Invoices"
-msgstr ""
+msgstr "Faturalar"
 
 msgid "Payments"
-msgstr ""
+msgstr "Ödemeler"
 
 msgid "Reports"
-msgstr ""
+msgstr "Raporlar"
 
 msgid "POS"
-msgstr ""
+msgstr "Satış Noktası"
 
 msgid "Point of Sale"
-msgstr ""
+msgstr "Satış Noktası"
 
 msgid "POS Sessions"
-msgstr ""
+msgstr "POS Oturumları"
 
 msgid "Manufacturing"
-msgstr ""
+msgstr "Üretim"
 
 msgid "Production Orders"
-msgstr ""
+msgstr "Üretim Emirleri"
 
 msgid "Bill of Materials"
-msgstr ""
+msgstr "Ürün Reçeteleri"
 
 msgid "Technical Service"
-msgstr ""
+msgstr "Teknik Servis"
 
 msgid "Service Tickets"
-msgstr ""
+msgstr "Servis Talepleri"
 
 msgid "Shipping & Returns"
-msgstr ""
+msgstr "Kargo ve İadeler"
 
 msgid "Shipments"
-msgstr ""
+msgstr "Gönderiler"
 
 msgid "Returns"
-msgstr ""
+msgstr "İadeler"
 
 msgid "Human Resources"
-msgstr ""
+msgstr "İnsan Kaynakları"
 
 msgid "Employees"
-msgstr ""
+msgstr "Çalışanlar"
 
 msgid "Attendance"
-msgstr ""
+msgstr "Devam Takibi"
 
 msgid "Branch Management"
-msgstr ""
+msgstr "Şube Yönetimi"
 
 msgid "Branches"
-msgstr ""
+msgstr "Şubeler"
 
 msgid "Branch Staff"
-msgstr ""
+msgstr "Şube Personeli"
 
 msgid "Branch Inventory"
-msgstr ""
+msgstr "Şube Stokları"
 
 msgid "E-Commerce"
-msgstr ""
+msgstr "E-Ticaret"
 
 msgid "Products"
 msgstr "Ürünler"
@@ -141,7 +141,7 @@ msgid "Orders"
 msgstr "Siparişler"
 
 msgid "Marketplace Integrations"
-msgstr ""
+msgstr "Pazaryeri Entegrasyonları"
 
 msgid "Trendyol"
 msgstr ""
@@ -159,109 +159,109 @@ msgid "PTTAVM"
 msgstr ""
 
 msgid "Content Management"
-msgstr ""
+msgstr "İçerik Yönetimi"
 
 msgid "Pages"
 msgstr "Sayfalar"
 
 msgid "Page Builder"
-msgstr ""
+msgstr "Sayfa Oluşturucu"
 
 msgid "Theme Management"
-msgstr ""
+msgstr "Tema Yönetimi"
 
 msgid "Header Management"
-msgstr ""
+msgstr "Üst Alan Yönetimi"
 
 msgid "Hero Management"
-msgstr ""
+msgstr "Hero Yönetimi"
 
 msgid "Footer Management"
-msgstr ""
+msgstr "Alt Alan Yönetimi"
 
 msgid "Typography"
-msgstr ""
+msgstr "Tipografi"
 
 msgid "Colors"
-msgstr ""
+msgstr "Renkler"
 
 msgid "Menu Management"
-msgstr ""
+msgstr "Menü Yönetimi"
 
 msgid "Menus"
-msgstr ""
+msgstr "Menüler"
 
 msgid "Blog Management"
-msgstr ""
+msgstr "Blog Yönetimi"
 
 msgid "Posts"
-msgstr ""
+msgstr "Yazılar"
 
 msgid "Blog Categories"
-msgstr ""
+msgstr "Blog Kategorileri"
 
 msgid "Tags"
-msgstr ""
+msgstr "Etiketler"
 
 msgid "Media Management"
-msgstr ""
+msgstr "Medya Yönetimi"
 
 msgid "Media Library"
 msgstr "Medya Kütüphanesi"
 
 msgid "Site Settings"
-msgstr ""
+msgstr "Site Ayarları"
 
 msgid "General Settings"
 msgstr "Genel Ayarlar"
 
 msgid "Writing"
-msgstr ""
+msgstr "Yazma"
 
 msgid "Reading"
-msgstr ""
+msgstr "Okuma"
 
 msgid "Discussion"
-msgstr ""
+msgstr "Tartışma"
 
 msgid "Media Settings"
-msgstr ""
+msgstr "Medya Ayarları"
 
 msgid "Permalinks"
 msgstr "Kalıcı Bağlantılar"
 
 msgid "Privacy"
-msgstr ""
+msgstr "Gizlilik"
 
 msgid "Mail Settings"
 msgstr "E-posta Ayarları"
 
 msgid "Maintenance & Cache"
-msgstr ""
+msgstr "Bakım ve Önbellek"
 
 msgid "User Management"
-msgstr ""
+msgstr "Kullanıcı Yönetimi"
 
 msgid "Users"
-msgstr ""
+msgstr "Kullanıcılar"
 
 msgid "Roles & Permissions"
-msgstr ""
+msgstr "Roller ve İzinler"
 
 msgid "My Profile"
 msgstr "Profilim"
 
 msgid "Integrations"
-msgstr ""
+msgstr "Entegrasyonlar"
 
 msgid "Analytics & Reporting"
-msgstr ""
+msgstr "Analiz ve Raporlama"
 
 msgid "Analytics"
-msgstr ""
+msgstr "Analizler"
 
 msgid "Breadcrumb"
-msgstr ""
+msgstr "Gezinti Yolu"
 
 msgid "Coming soon"
 msgstr "Yakında"
@@ -270,19 +270,19 @@ msgid "This module is reserved for a future development stage."
 msgstr "Bu modül sonraki geliştirme aşaması için ayrılmıştır."
 
 msgid "Invalid security token"
-msgstr ""
+msgstr "Geçersiz güvenlik belirteci"
 
 msgid "Invalid credentials"
-msgstr ""
+msgstr "Geçersiz giriş bilgileri"
 
 msgid "Authentication required"
-msgstr ""
+msgstr "Kimlik doğrulaması gerekli"
 
 msgid "KodCommerce Administration"
-msgstr ""
+msgstr "KodCommerce Yönetimi"
 
 msgid "Open navigation"
-msgstr ""
+msgstr "Menüyü aç"
 
 msgid "Account"
 msgstr "Hesabım"
@@ -313,3 +313,24 @@ msgstr "KodCommerce'e Hoş Geldiniz"
 
 msgid "Sign in to access the administration panel."
 msgstr "Yönetim paneline erişmek için giriş yapın."
+
+msgid "Unable to sign in"
+msgstr "Giriş yapılamadı"
+
+msgid "Navigation failed"
+msgstr "Sayfa açılamadı"
+
+msgid "Network error"
+msgstr "Ağ hatası"
+
+msgid "Language"
+msgstr "Dil"
+
+msgid "English"
+msgstr "İngilizce"
+
+msgid "Turkish"
+msgstr "Türkçe"
+
+msgid "Unsupported language"
+msgstr "Desteklenmeyen dil"
