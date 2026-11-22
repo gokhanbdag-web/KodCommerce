@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -euxo pipefail
 php -m | grep -i '^pdo_mysql$' >/dev/null
 mkdir -p storage
 test ! -e storage/database.php
