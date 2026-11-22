@@ -132,3 +132,11 @@ Pending details
 - Existing functionality must remain intact; assess and test plugin/theme compatibility and migration impact, including legacy identifiers that external integrations depend on. Do not promise zero regressions or undetectability to source-code auditors.
 - Preserve legally required GPL copyright, attribution and license notices; these cannot be erased to conceal origin.
 - Before any implementation, inspect the actual uploaded WordPress version and produce a dependency-aware migration plan and test strategy. The source has not yet been supplied in this turn.
+
+19. FINAL ARCHITECTURE CORRECTION — ORIGINAL IMPLEMENTATION (latest explicit decision; supersedes sections 17 and 18 insofar as they require a WordPress fork)
+- User chose to write KodCommerce with our OWN code from scratch, rather than adapting WordPress source.
+- WordPress is a functional and UX reference for the desired CMS capabilities, not a source-code dependency. KodCommerce must have its own PHP core, technical naming, paths, database schema, administration, and update services.
+- Retain previously specified CMS, blog, page builder, translation, Bootstrap and modular e-commerce requirements.
+- User's highest priority is reaching a stable working result quickly, avoiding repeated regressions and restarts; use small incremental deliveries, verify tests before merging, preserve working features and avoid needless rewrites.
+- Scope must be prioritized into a minimal usable initial release followed by staged feature parity; do not promise full WordPress parity immediately.
+- Do not import or fork WordPress source unless the user explicitly reverses this decision again.
