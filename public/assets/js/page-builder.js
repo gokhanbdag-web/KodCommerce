@@ -1,4 +1,5 @@
 import { moveColumn, moveWidget } from './page-layout.mjs';
+import { createHistory, copyWidget, pasteWidget } from './page-editor-history.mjs';
 const translate = (key) => {
  const root = document.querySelector('#pageBuilder');
  if (!root) return key;
@@ -7,6 +8,13 @@ const translate = (key) => {
 };
 const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let layout = [];
+const historyStack = createHistory();
+let copiedWidget = null;
+function capture() { historyStack.capture(layout); updateUndoButton(); }
+function updateUndoButton() { const button=document.querySelector('#builderUndo'); if(button)button.disabled=!historyStack.canUndo; }
+function undo() { const previous=historyStack.undo(); if(previous===null)return; layout=previous;render();markDirty();updateUndoButton(); }
+function targetOptions(r,c) { return layout.flatMap((row,ri)=>row.columns.map((col,ci)=>`<option value="${ri}:${ci}" ${ri===r&&ci===c?'selected':''}>${escapeHtml(translate('Row'))} ${ri+1} / ${escapeHtml(translate('Column'))} ${ci+1}</option>`)).join(''); }
+
 let loaded = false;
 let dirty = false;
 let initialTitle = '';
@@ -19,14 +27,15 @@ const widths = ['contained', 'fluid', 'full'];
 const types = ['heading', 'text', 'button'];
 const options = (values, current) => values.map(v => `<option value="${v}" ${v === current ? 'selected' : ''}>${escapeHtml(translate(v))}</option>`).join('');
 const widgetHtml = (w, r, c, i) => `<div class="border rounded p-2 mb-2 bg-body-tertiary" draggable="true" data-widget="${i}" data-row="${r}" data-col="${c}">
- <div class="d-flex flex-wrap gap-1 align-items-center mb-2"><span class="small text-secondary me-auto" title="${escapeHtml(translate('Drag to another column'))}">☰ ${translate('Widget')} ${i+1}</span><button class="btn btn-sm btn-outline-secondary" data-action="widget-up" data-r="${r}" data-c="${c}" data-i="${i}">↑</button><button class="btn btn-sm btn-outline-secondary" data-action="widget-down" data-r="${r}" data-c="${c}" data-i="${i}">↓</button><button class="btn btn-sm btn-outline-secondary" data-action="widget-duplicate" data-r="${r}" data-c="${c}" data-i="${i}" title="${escapeHtml(translate('Duplicate widget'))}">⧉</button><button class="btn btn-sm btn-outline-danger" data-action="widget-remove" data-r="${r}" data-c="${c}" data-i="${i}">×</button></div>
+ <div class="d-flex flex-wrap gap-1 align-items-center mb-2"><span class="small text-secondary me-auto" title="${escapeHtml(translate('Drag to another column'))}">☰ ${translate('Widget')} ${i+1}</span><button class="btn btn-sm btn-outline-secondary" data-action="widget-up" data-r="${r}" data-c="${c}" data-i="${i}">↑</button><button class="btn btn-sm btn-outline-secondary" data-action="widget-down" data-r="${r}" data-c="${c}" data-i="${i}">↓</button><button class="btn btn-sm btn-outline-secondary" data-action="widget-copy" data-r="${r}" data-c="${c}" data-i="${i}" title="${escapeHtml(translate('Copy widget'))}">${escapeHtml(translate('Copy'))}</button><button class="btn btn-sm btn-outline-secondary" data-action="widget-duplicate" data-r="${r}" data-c="${c}" data-i="${i}" title="${escapeHtml(translate('Duplicate widget'))}">⧉</button><button class="btn btn-sm btn-outline-danger" data-action="widget-remove" data-r="${r}" data-c="${c}" data-i="${i}">×</button></div>
  <label class="form-label small">${translate('Type')} <select class="form-select form-select-sm" data-field="widget-type" data-r="${r}" data-c="${c}" data-i="${i}">${options(types,w.type)}</select></label>
  <label class="form-label small d-block">${translate('Content')} <textarea class="form-control form-control-sm" rows="4" maxlength="5000" data-field="widget-text" data-r="${r}" data-c="${c}" data-i="${i}">${escapeHtml(w.text)}</textarea></label>
+ <div class="d-flex flex-wrap gap-1 align-items-center mt-2"><label class="small mb-0">${escapeHtml(translate('Move to column'))} <select class="form-select form-select-sm d-inline-block w-auto" data-widget-target="${r}:${c}:${i}">${targetOptions(r,c)}</select></label><button class="btn btn-sm btn-outline-secondary" data-action="widget-move-target" data-r="${r}" data-c="${c}" data-i="${i}">${escapeHtml(translate('Move'))}</button></div>
  </div>`;
 const columnHtml = (col,r,c) => `<div class="col-12 col-xl-6"><div class="border rounded p-2 h-100">
  <div class="d-flex flex-wrap gap-1 align-items-center mb-2"><strong class="small me-auto">${translate('Column')} ${c+1}</strong><label class="small">${translate('Span')} <select class="form-select form-select-sm d-inline-block w-auto" data-field="span" data-r="${r}" data-c="${c}">${options(Array.from({length:12},(_,i)=>String(i+1)),String(col.span))}</select></label><button class="btn btn-sm btn-outline-secondary" data-action="column-up" data-r="${r}" data-c="${c}" title="${escapeHtml(translate('Move column left'))}">←</button><button class="btn btn-sm btn-outline-secondary" data-action="column-down" data-r="${r}" data-c="${c}" title="${escapeHtml(translate('Move column right'))}">→</button><button class="btn btn-sm btn-outline-danger" data-action="column-remove" data-r="${r}" data-c="${c}">×</button></div>
  <div class="rounded p-1" data-drop-r="${r}" data-drop-c="${c}" style="min-height:3rem" aria-label="${escapeHtml(translate('Drop widgets here'))}">${col.widgets.map((w,i)=>widgetHtml(w,r,c,i)).join('')}${col.widgets.length ? '' : `<p class="small text-secondary mb-0" data-drop-empty="true">${escapeHtml(translate('Drop widgets here'))}</p>`}</div>
- <div class="d-flex gap-1 flex-wrap"><select class="form-select form-select-sm w-auto" data-new-type-r="${r}" data-new-type-c="${c}">${options(types,'text')}</select><button class="btn btn-sm btn-outline-primary" data-action="widget-add" data-r="${r}" data-c="${c}">${translate('+ Widget')}</button></div>
+ <div class="d-flex gap-1 flex-wrap"><button class="btn btn-sm btn-outline-secondary" data-action="widget-paste" data-r="${r}" data-c="${c}" title="${escapeHtml(translate('Paste widget'))}">${escapeHtml(translate('Paste'))}</button><select class="form-select form-select-sm w-auto" data-new-type-r="${r}" data-new-type-c="${c}">${options(types,'text')}</select><button class="btn btn-sm btn-outline-primary" data-action="widget-add" data-r="${r}" data-c="${c}">${translate('+ Widget')}</button></div>
  </div></div>`;
 function render() {
  const root = document.querySelector('#builderRows'); if (!root) return;
@@ -47,6 +56,10 @@ function updateField(el) {
 function act(el) {
  const action=el.dataset.action,r=Number(el.dataset.r),c=Number(el.dataset.c),i=Number(el.dataset.i);
  const row=layout[r],column=row?.columns[c];
+ if(action==='widget-copy'){copiedWidget=copyWidget(layout,r,c,i);status(translate('Widget copied'));return;}
+ if(action==='widget-paste'&&(!copiedWidget||column.widgets.length>=30))return;
+ if(action==='widget-move-target'){const selector=document.querySelector(`[data-widget-target="${r}:${c}:${i}"]`);if(!selector)return;const [toRow,toCol]=selector.value.split(':').map(Number);if(toRow===r&&toCol===c)return;capture();if(moveWidget(layout,r,c,i,toRow,toCol,layout[toRow].columns[toCol].widgets.length)){render();markDirty();}return;}
+ capture();
  if(action==='row-remove')layout.splice(r,1);
  if(action==='row-up')move(layout,r,-1);
  if(action==='row-down')move(layout,r,1);
@@ -57,6 +70,7 @@ function act(el) {
  if(action==='widget-add'&&column.widgets.length<30)column.widgets.push({type:document.querySelector(`[data-new-type-r="${r}"][data-new-type-c="${c}"]`).value,text:''});
  if(action==='widget-remove')column.widgets.splice(i,1);
  if(action==='widget-duplicate'&&column.widgets.length<30)column.widgets.splice(i+1,0,{...column.widgets[i]});
+ if(action==='widget-paste')pasteWidget(layout,r,c,copiedWidget);
  if(action==='widget-up')move(column.widgets,i,-1);
  if(action==='widget-down')move(column.widgets,i,1);
  render();markDirty();
@@ -68,25 +82,27 @@ function preview() {
 }
 async function save() {
  const body=new FormData();body.set('id',document.querySelector('#pageBuilder').dataset.pageId||'');body.set('slug',document.querySelector('#builderSlug').value);body.set('status',document.querySelector('#builderPublishStatus').value);body.set('csrf',document.querySelector('meta[name="csrf-token"]').content);body.set('title',document.querySelector('#builderPageTitle').value);body.set('layout',JSON.stringify(layout));
- try {const response=await fetch('/api/pages',{method:'POST',body,credentials:'same-origin'});const result=await response.json();if(response.ok){document.querySelector('#pageBuilder').dataset.pageId=String(result.id);history.replaceState({},'', '/admin/content-management/pages?edit='+result.id);markClean();const link=document.querySelector('#builderViewPage');if(link){link.href='/pages/'+encodeURIComponent(document.querySelector('#builderSlug').value);link.hidden=document.querySelector('#builderPublishStatus').value!=='published';}}status(response.ok?translate('Page saved'):(result.error||translate('Save failed')),!response.ok);}
+ try {const response=await fetch('/api/pages',{method:'POST',body,credentials:'same-origin'});const result=await response.json();if(response.ok){document.querySelector('#pageBuilder').dataset.pageId=String(result.id);history.replaceState({},'', '/admin/content-management/pages?edit='+result.id);markClean();historyStack.clear();updateUndoButton();const link=document.querySelector('#builderViewPage');if(link){link.href='/pages/'+encodeURIComponent(document.querySelector('#builderSlug').value);link.hidden=document.querySelector('#builderPublishStatus').value!=='published';}}status(response.ok?translate('Page saved'):(result.error||translate('Save failed')),!response.ok);}
  catch(e){status(translate('Unable to save homepage'),true);}
 }
 async function initialize() {
  const root=document.querySelector('#pageBuilder');if(!root||root.dataset.initialized)return;root.dataset.initialized='true';
- try {layout=JSON.parse(root.dataset.layout||'[]');render();initialTitle=document.querySelector('#builderPageTitle').value;initialSlug=document.querySelector('#builderSlug').value;}
+ try {layout=JSON.parse(root.dataset.layout||'[]');render();updateUndoButton();initialTitle=document.querySelector('#builderPageTitle').value;initialSlug=document.querySelector('#builderSlug').value;}
  catch(e){status(translate('Unable to load saved layout'),true);}
 }
 document.addEventListener('click',e=>{
  const root=e.target.closest('#pageBuilder');if(!root)return;
  const action=e.target.closest('[data-builder-action]');if(action){
- if(action.dataset.builderAction==='add-row'&&layout.length<40){layout.push({width:'contained',columns:[{span:12,widgets:[]}]});render();markDirty();}
+ if(action.dataset.builderAction==='add-row'&&layout.length<40){capture();layout.push({width:'contained',columns:[{span:12,widgets:[]}]});render();markDirty();}
  if(action.dataset.builderAction==='preview')preview();
+ if(action.dataset.builderAction==='undo')undo();
  if(action.dataset.builderAction==='save')save();
  return;
  }
  const control=e.target.closest('[data-action]');if(control)act(control);
 });
-document.addEventListener('change',e=>{if(e.target.closest('#pageBuilder')&&e.target.dataset.field){updateField(e.target);markDirty();}});
+document.addEventListener('change',e=>{if(e.target.closest('#pageBuilder')&&e.target.dataset.field){capture();updateField(e.target);markDirty();}});
+document.addEventListener('focusin',e=>{if(e.target.closest('#pageBuilder')&&e.target.dataset.field==='widget-text')capture();});
 document.addEventListener('input',e=>{if(e.target.closest('#pageBuilder')&&e.target.dataset.field==='widget-text'){updateField(e.target);markDirty();}});
 let dragging=null;
 document.addEventListener('dragstart',e=>{
@@ -118,7 +134,7 @@ document.addEventListener('drop',e=>{
   index=Number(card.dataset.widget);
   if(e.clientY>=card.getBoundingClientRect().top+card.getBoundingClientRect().height/2)index++;
  }
- if(moveWidget(layout,dragging.r,dragging.c,dragging.i,row,col,index)){render();markDirty();}
+ capture();if(moveWidget(layout,dragging.r,dragging.c,dragging.i,row,col,index)){render();markDirty();}
  zone.classList.remove('border','border-primary');
  dragging=null;
 });
@@ -132,3 +148,5 @@ initialize();
 document.addEventListener('input',e=>{if(!e.target.closest('#pageBuilder'))return;if(e.target.id==='builderPageTitle'){const slug=document.querySelector('#builderSlug');if(slug&&!slug.dataset.manual&&(slug.value===''||slug.value===slugify(initialTitle)))slug.value=slugify(e.target.value);markDirty();}if(e.target.id==='builderSlug'){e.target.dataset.manual='1';markDirty();}});
 document.addEventListener('change',e=>{if(e.target.closest('#pageBuilder')&&e.target.id==='builderPublishStatus'){markDirty();}});
 window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue='';}});
+
+document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'&&!e.shiftKey&&e.target.closest('#pageBuilder')&&!e.target.matches('input,textarea,[contenteditable]')){e.preventDefault();undo();}});
