@@ -1,19 +1,22 @@
 <?php
 $builderTranslations = [];
-foreach (['Widget','Type','Content','Column','Span','+ Widget','Row','Width','Remove row','+ Column','Preview (unsaved)','Homepage published. View it at /','Save failed','Unable to save homepage','Unable to load page','Unable to load saved layout','heading','text','button','contained','fluid','full'] as $message) {
+foreach (['Widget','Type','Content','Column','Span','+ Widget','Row','Width','Remove row','+ Column','Preview (unsaved)','Homepage published. View it at /','Page saved','Save failed','Unable to save homepage','Unable to load page','Unable to load saved layout','heading','text','button','contained','fluid','full'] as $message) {
     $builderTranslations[$message] = t($message);
 }
 ?>
-<section class="container-fluid py-4" id="pageBuilder" data-translations="<?= e(json_encode($builderTranslations, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR)) ?>" aria-labelledby="builderTitle">
+<section class="container-fluid py-2" id="pageBuilder" data-page-id="<?= (int)($builderPage['id'] ?? 0) ?>" data-layout="<?= e($builderPage['layout_json'] ?? '[]') ?>" data-translations="<?= e(json_encode($builderTranslations, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR)) ?>" aria-labelledby="builderTitle">
  <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
-  <div><h1 id="builderTitle" class="h3 mb-1"><?= e(t('Page Builder')) ?></h1><p class="text-secondary mb-0"><?= e(t('Build your homepage with rows, columns and widgets.')) ?></p></div>
-  <div class="d-flex flex-wrap gap-2"><button type="button" class="btn btn-outline-secondary" data-builder-action="preview"><?= e(t('Preview')) ?></button><button type="button" class="btn btn-primary" data-builder-action="save"><?= e(t('Publish homepage')) ?></button></div>
+  <div><h1 id="builderTitle" class="h3 mb-1"><?= e($builderPage ? t('Edit Page') : t('Add New Page')) ?></h1><p class="text-secondary mb-0"><?= e(t('Use the visual editor to arrange this page.')) ?></p></div>
+  <div class="d-flex flex-wrap gap-2"><button type="button" class="btn btn-outline-secondary" data-builder-action="preview"><?= e(t('Preview')) ?></button><button type="button" class="btn btn-primary" data-builder-action="save"><?= e(t('Save Page')) ?></button></div>
  </div>
  <div class="row g-3">
   <div class="col-lg-9">
    <div class="card"><div class="card-body">
-    <label class="form-label" for="builderPageTitle"><?= e(t('Page title')) ?></label><input id="builderPageTitle" class="form-control mb-3" maxlength="160" value="<?= e(t('Homepage')) ?>">
-    <div id="builderRows" class="vstack gap-3"></div>
+    <label class="form-label" for="builderPageTitle"><?= e(t('Page title')) ?></label><input id="builderPageTitle" class="form-control mb-3" maxlength="160" value="<?= e($builderPage['title'] ?? '') ?>">
+    <div class="row g-3 mb-3">
+ <div class="col-md-8"><label class="form-label" for="builderSlug"><?= e(t('Slug')) ?></label><input id="builderSlug" class="form-control" required maxlength="190" pattern="[a-z0-9]+(-[a-z0-9]+)*" value="<?= e($builderPage['slug'] ?? '') ?>"></div>
+ <div class="col-md-4"><label class="form-label" for="builderPublishStatus"><?= e(t('Status')) ?></label><select id="builderPublishStatus" class="form-select"><option value="draft" <?= ($builderPage['status'] ?? '') === 'draft' ? 'selected' : '' ?>><?= e(t('Draft')) ?></option><option value="published" <?= ($builderPage['status'] ?? '') === 'published' ? 'selected' : '' ?>><?= e(t('Published')) ?></option></select></div>
+ </div><div id="builderRows" class="vstack gap-3"></div>
     <button type="button" class="btn btn-outline-primary mt-3" data-builder-action="add-row"><?= e(t('+ Add row')) ?></button>
    </div></div>
   </div>

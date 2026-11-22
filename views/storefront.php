@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="csrf-token" content="<?= e($_SESSION['csrf']) ?>">
-<title>KodCommerce — Home</title>
+<title><?= e($publicPage['title'] ?? 'KodCommerce') ?></title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script defer src="/assets/js/storefront.js"></script>
@@ -17,7 +17,7 @@
  </div>
 </header>
 <main class="flex-grow-1">
-<?php $homePage = \KodCommerce\Support\Pages::home(); ?>
+<?php $homePage = $publicPage ?? \KodCommerce\Support\Pages::home(); ?>
 <?php if ($homePage): ?>
 <?= \KodCommerce\Support\Pages::render($homePage) ?>
 <?php else: ?>

@@ -41,6 +41,20 @@ final class Pages
 
     public static function saveHome(string $title, array $layout): void
     {
+        self::validate($title, $layout);
+        self::ensureSchema();
+        $json = json_encode($layout, JSON_THROW_ON_ERROR);
+        $db = Installation::connection();
+        $sql = $db->getAttribute(\PDO::ATTR_DRIVER_NAME) === 'mysql'
+            ? "INSERT INTO cms_pages (slug,title,status,layout_json) VALUES ('home',?,'published',?) ON DUPLICATE KEY UPDATE title=VALUES(title), status=VALUES(status), layout_json=VALUES(layout_json), updated_at=CURRENT_TIMESTAMP"
+            : "INSERT INTO cms_pages (slug,title,status,layout_json) VALUES ('home',?,'published',?) ON CONFLICT(slug) DO UPDATE SET title=excluded.title, status=excluded.status, layout_json=excluded.layout_json, updated_at=CURRENT_TIMESTAMP";
+        $statement = $db->prepare($sql);
+        $statement->execute([$title, $json]);
+    }
+
+
+    private static function validate(string $title, array $layout): void
+    {
         if (trim($title) === '' || strlen($title) > 160) {
             throw new RuntimeException('Page title is required (max 160 characters)');
         }
@@ -62,14 +76,54 @@ final class Pages
                 }
             }
         }
+    }
+
+    public static function all(): array
+    {
         self::ensureSchema();
-        $json = json_encode($layout, JSON_THROW_ON_ERROR);
+        return Installation::connection()->query('SELECT id, slug, title, status, updated_at FROM cms_pages ORDER BY updated_at DESC, id DESC')->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    public static function find(int $id): ?array
+    {
+        self::ensureSchema();
+        $query = Installation::connection()->prepare('SELECT * FROM cms_pages WHERE id = ?');
+        $query->execute([$id]);
+        return $query->fetch(\PDO::FETCH_ASSOC) ?: null;
+    }
+
+    public static function save(?int $id, string $title, string $slug, string $status, array $layout): int
+    {
+        self::validate($title, $layout);
+        $slug = strtolower(trim($slug));
+        if (!preg_match('/^[a-z0-9]+(?:-[a-z0-9]+)*$/', $slug) || strlen($slug) > 190) {
+            throw new RuntimeException('Invalid page slug');
+        }
+        if (!in_array($status, ['draft', 'published'], true)) {
+            throw new RuntimeException('Invalid page status');
+        }
+        self::ensureSchema();
         $db = Installation::connection();
-        $sql = $db->getAttribute(\PDO::ATTR_DRIVER_NAME) === 'mysql'
-            ? "INSERT INTO cms_pages (slug,title,status,layout_json) VALUES ('home',?,'published',?) ON DUPLICATE KEY UPDATE title=VALUES(title), status=VALUES(status), layout_json=VALUES(layout_json), updated_at=CURRENT_TIMESTAMP"
-            : "INSERT INTO cms_pages (slug,title,status,layout_json) VALUES ('home',?,'published',?) ON CONFLICT(slug) DO UPDATE SET title=excluded.title, status=excluded.status, layout_json=excluded.layout_json, updated_at=CURRENT_TIMESTAMP";
-        $statement = $db->prepare($sql);
-        $statement->execute([$title, $json]);
+        $json = json_encode($layout, JSON_THROW_ON_ERROR);
+        if ($id !== null) {
+            if (!self::find($id)) {
+                throw new RuntimeException('Page not found');
+            }
+            $query = $db->prepare('UPDATE cms_pages SET title = ?, slug = ?, status = ?, layout_json = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?');
+            $query->execute([$title, $slug, $status, $json, $id]);
+            return $id;
+        }
+        $query = $db->prepare('INSERT INTO cms_pages (title, slug, status, layout_json) VALUES (?, ?, ?, ?)');
+        $query->execute([$title, $slug, $status, $json]);
+        return (int) $db->lastInsertId();
+    }
+
+    public static function published(string $slug): ?array
+    {
+        self::ensureSchema();
+        $query = Installation::connection()->prepare('SELECT * FROM cms_pages WHERE slug = ? AND status = ? LIMIT 1');
+        $query->execute([$slug, 'published']);
+        return $query->fetch(\PDO::FETCH_ASSOC) ?: null;
     }
 
     public static function render(?array $page): string

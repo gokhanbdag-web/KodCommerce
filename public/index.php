@@ -104,34 +104,33 @@ if ($path === 'api/logout' && $method === 'POST') {
 }
 
 $_SESSION['csrf'] ??= bin2hex(random_bytes(32));
-if ($path === 'api/pages/home' && $method === 'GET') {
+if ($path === 'api/pages' && $method === 'POST') {
     if (!Auth::user() || Auth::user()['role'] !== 'administrator') {
-        jsonResponse(['error' => 'Forbidden'], 403);
-    }
-    try {
-        $page = \KodCommerce\Support\Pages::home();
-        jsonResponse(['ok' => true, 'title' => $page['title'] ?? 'Homepage', 'layout' => $page ? json_decode($page['layout_json'], true, 512, JSON_THROW_ON_ERROR) : []]);
-    } catch (\Throwable $error) {
-        jsonResponse(['error' => 'Unable to load homepage'], 500);
-    }
-}
-if ($path === 'api/pages/home' && $method === 'POST') {
-    if (!Auth::user() || Auth::user()['role'] !== 'administrator') {
-        jsonResponse(['error' => 'Forbidden'], 403);
+        jsonResponse(['error' => t('Authentication required')], 403);
     }
     if (!hash_equals($_SESSION['csrf'], (string) ($_POST['csrf'] ?? ''))) {
-        jsonResponse(['error' => 'Invalid security token'], 419);
+        jsonResponse(['error' => t('Invalid security token')], 419);
     }
     try {
-        $layout = json_decode((string) ($_POST['layout'] ?? ''), true, 512, JSON_THROW_ON_ERROR);
+        $layout = json_decode((string) ($_POST['layout'] ?? '[]'), true, 512, JSON_THROW_ON_ERROR);
         if (!is_array($layout) || !array_is_list($layout)) {
             throw new RuntimeException('Invalid layout');
         }
-        \KodCommerce\Support\Pages::saveHome((string) ($_POST['title'] ?? ''), $layout);
-        jsonResponse(['ok' => true]);
+        $id = filter_var($_POST['id'] ?? null, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]) ?: null;
+        $pageId = \KodCommerce\Support\Pages::save($id, trim((string) ($_POST['title'] ?? '')), (string) ($_POST['slug'] ?? ''), (string) ($_POST['status'] ?? 'draft'), $layout);
+        jsonResponse(['ok' => true, 'id' => $pageId]);
     } catch (\JsonException | \RuntimeException $error) {
         jsonResponse(['error' => $error->getMessage()], 422);
+    } catch (\PDOException $error) {
+        jsonResponse(['error' => t('Unable to save page')], 422);
     }
+}
+if ($method === 'GET' && str_starts_with($path, 'pages/')) {
+    $slug = substr($path, 6);
+    $page = \KodCommerce\Support\Pages::published($slug);
+    if (!$page) { http_response_code(404); exit(t('Page not found')); }
+    require dirname(__DIR__) . '/views/public-page.php';
+    exit;
 }
 if ($path === '' && $method === 'GET') {
     require dirname(__DIR__) . '/views/storefront.php';
@@ -156,7 +155,7 @@ if (($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'XMLHttpRequest') {
         jsonResponse(['error' => t('Authentication required')], 401);
     }
     ob_start();
-    require dirname(__DIR__) . ($selected === 'content-management/page-builder' ? '/views/page-builder.php' : '/views/placeholder.php');
+    require dirname(__DIR__) . ($selected === 'content-management/pages' ? '/views/pages.php' : '/views/placeholder.php');
     jsonResponse(['html' => ob_get_clean(), 'title' => t($label)]);
 }
 require dirname(__DIR__) . '/views/layout.php';

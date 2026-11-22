@@ -33,7 +33,7 @@ document.addEventListener('click', async (event) => {
   try { await navigate(link.href); closeDrawer(link); }
   catch (error) { console.error(error); }
 });
-window.addEventListener('popstate', () => navigate(location.pathname, false).catch(console.error));
+window.addEventListener('popstate', () => navigate(location.pathname + location.search, false).catch(console.error));
 
 loginForm.addEventListener('submit', async (event) => {
   event.preventDefault();

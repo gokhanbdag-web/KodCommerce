@@ -451,3 +451,48 @@ msgstr ""
 
 msgid "full"
 msgstr ""
+
+msgid "Add New Page"
+msgstr ""
+
+msgid "Title"
+msgstr ""
+
+msgid "Slug"
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Actions"
+msgstr ""
+
+msgid "Edit"
+msgstr ""
+
+msgid "Edit Page"
+msgstr ""
+
+msgid "Back to Pages"
+msgstr ""
+
+msgid "Page not found"
+msgstr ""
+
+msgid "Use the visual editor to arrange this page."
+msgstr ""
+
+msgid "Save Page"
+msgstr ""
+
+msgid "Draft"
+msgstr ""
+
+msgid "Published"
+msgstr ""
+
+msgid "Page saved"
+msgstr ""
+
+msgid "Unable to save page"
+msgstr ""
