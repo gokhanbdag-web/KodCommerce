@@ -82,3 +82,10 @@ Pending details
 - Provide an Add New Page action that opens the new-page creation screen.
 - The page list is the entry point to creating and maintaining pages; page content remains managed rather than hardcoded.
 - Details such as delete confirmation, search, filters, pagination, and list columns have not yet been specified.
+
+12. Content Management > Block Management
+- Add a Block Management submenu entry under the Content Management accordion group, alongside Page Management.
+- Opening Block Management displays two navigation cards: Categories and Blocks.
+- Clicking Categories opens a category management page showing existing categories and an Add New Category action.
+- The new-category form must include: Category Image, Category Name, and Category Description.
+- The meaning, editor, and behavior of Blocks, and any additional category fields or actions, have not yet been specified; await further requirements.
