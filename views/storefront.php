@@ -6,14 +6,18 @@
 <title><?= e($publicPage['title'] ?? 'KodCommerce') ?></title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script defer src="/assets/js/storefront.js"></script>
+<script defer src="/assets/js/storefront.js?v=<?= rawurlencode((string) filemtime(__DIR__ . '/../public/assets/js/storefront.js')) ?>"></script>
 </head>
 <body class="d-flex flex-column min-vh-100">
 <header class="border-bottom bg-white sticky-top">
  <div class="container d-flex align-items-center gap-3 py-3">
   <a href="/" class="navbar-brand fw-bold me-auto">KodCommerce</a>
   <nav aria-label="Main navigation"><a href="/" class="text-decoration-none">Home</a></nav>
+  <?php if (\KodCommerce\Support\Auth::user()): ?>
+  <a class="btn btn-outline-primary" href="/admin/dashboard/overview">Administration</a>
+  <?php else: ?>
   <button class="btn btn-outline-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#accountDrawer" aria-controls="accountDrawer" aria-label="Open account">Account</button>
+  <?php endif; ?>
  </div>
 </header>
 <main class="flex-grow-1">
