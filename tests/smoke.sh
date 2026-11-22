@@ -27,6 +27,11 @@ curl -fsS -b /tmp/kodcommerce-cookie -c /tmp/kodcommerce-cookie -d "csrf=$csrf" 
 curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/admin/dashboard/overview | grep 'adminContent' >/dev/null
  # Pages is the only CMS navigation entry; new pages open the embedded visual editor.
 curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/admin/content-management/pages | grep 'Add New Page' >/dev/null
+# Full-page and AJAX routes must render the real Pages UI, never a placeholder.
+curl -fsS -b /tmp/kodcommerce-cookie 'http://127.0.0.1:8765/admin/content-management/pages?new=1' | grep 'data-builder-action="add-row"' >/dev/null
+curl -fsS -b /tmp/kodcommerce-cookie 'http://127.0.0.1:8765/admin/content-management/pages?new=1' | grep 'data-builder-action="save"' >/dev/null
+curl -fsS -b /tmp/kodcommerce-cookie -H 'X-Requested-With: XMLHttpRequest' http://127.0.0.1:8765/admin/content-management/pages | grep 'Add New Page' >/dev/null
+curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/admin/dashboard/overview | grep '/assets/js/admin.js?v=' >/dev/null
 curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/admin/content-management/pages | grep 'content-management/pages' >/dev/null
 ! curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/admin/content-management/pages | grep 'href="/admin/content-management/page-builder"' >/dev/null
 curl -fsS -b /tmp/kodcommerce-cookie -H 'X-Requested-With: XMLHttpRequest' 'http://127.0.0.1:8765/admin/content-management/pages?new=1' | grep 'builderRows' >/dev/null
