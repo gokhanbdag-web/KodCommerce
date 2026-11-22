@@ -31,7 +31,7 @@ curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/admin/content-managem
 ! curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/admin/content-management/pages | grep 'href="/admin/content-management/page-builder"' >/dev/null
 curl -fsS -b /tmp/kodcommerce-cookie -H 'X-Requested-With: XMLHttpRequest' 'http://127.0.0.1:8765/admin/content-management/pages?new=1' | grep 'builderRows' >/dev/null
 # Login rotates the CSRF token; obtain the new token from the authenticated admin shell.
-csrf=$(curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/admin/dashboard/overview | awk -F '"' '/name="csrf-token"/ {print $4; exit}')
+csrf=$(curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/admin/dashboard/overview | awk -F '"' '/name="csrf-token"/ {print $4}')
 test -n "$csrf"
 curl -fsS -b /tmp/kodcommerce-cookie -d "csrf=$csrf" --data-urlencode 'title=About Us' -d 'slug=about-us' -d 'status=published' --data-urlencode 'layout=[{"width":"contained","columns":[{"span":12,"widgets":[{"type":"heading","text":"Published page smoke test"}]}]}]' http://127.0.0.1:8765/api/pages | grep '"ok":true' >/dev/null
 curl -fsS http://127.0.0.1:8765/pages/about-us | grep 'Published page smoke test' >/dev/null
