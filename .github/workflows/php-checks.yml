@@ -25,7 +25,10 @@ jobs:
       - name: Validate PHP syntax
         run: find app public views -name '*.php' -print0 | xargs -0 -n1 php -l
       - name: Validate Page Builder JavaScript syntax
-        run: node --check public/assets/js/page-builder.js
+        run: |
+          node --check public/assets/js/page-builder.js
+          node --check public/assets/js/page-layout.mjs
+          node --test tests/page-layout.test.mjs
       - name: Smoke test installer, AJAX login and storefront
         run: bash tests/smoke.sh
       - name: Verify gettext catalog coverage
