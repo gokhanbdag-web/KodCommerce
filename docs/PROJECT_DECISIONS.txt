@@ -125,3 +125,10 @@ Pending details
 - The user has not yet supplied/uploaded the source in this turn. Do not begin modifying code until the actual repository/version is identified and inspected.
 - WordPress GPL license notices and attribution obligations must be retained where required; rebranding does not eliminate license duties. WordPress trademark usage must be evaluated separately.
 - This section explicitly overrides section 16's instruction to avoid using WordPress source. The earlier requirements for CMS features, localization, page builder and Bootstrap-based administration remain in force unless subsequently revised.
+
+18. Full technical rebranding requirement (explicit, latest)
+- Cosmetic rebranding alone is unacceptable. The user requires all WordPress/WP identifiers visible in file/directory paths, URLs, API routes, database prefixes and technical naming to be replaced with KodCommerce-specific identifiers, including wp-admin, wp-content, wp-includes and wp_ where feasible.
+- This is a deep source-level fork/refactor, not merely an admin theme or white-label plugin.
+- Existing functionality must remain intact; assess and test plugin/theme compatibility and migration impact, including legacy identifiers that external integrations depend on. Do not promise zero regressions or undetectability to source-code auditors.
+- Preserve legally required GPL copyright, attribution and license notices; these cannot be erased to conceal origin.
+- Before any implementation, inspect the actual uploaded WordPress version and produce a dependency-aware migration plan and test strategy. The source has not yet been supplied in this turn.
