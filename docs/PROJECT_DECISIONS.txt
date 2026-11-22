@@ -1,0 +1,31 @@
+KodCommerce - Project Decisions (Source of Truth)
+Last updated: 2026-11-22
+Status: Confirmed requirements from conversation; further requirements to follow.
+
+1. Product
+- Build an e-commerce system.
+- Implementation language: PHP.
+
+2. Language and localization
+- The source language of the application and its original translation strings must be English.
+- Provide translations using GNU gettext .po and compiled .mo files, in a WordPress-like translation workflow.
+
+3. Administration navigation
+- On desktop, the admin navigation must be a vertical sidebar on the left.
+- Navigation must be organized into groups.
+- Clicking a parent menu item expands/collapses its submenu in accordion style.
+
+4. UI framework and styling
+- Use Bootstrap throughout the administration interface.
+- Do not write external/custom CSS stylesheets.
+- Provide a Theme Settings section that can dynamically change theme colors and Bootstrap styling choices.
+- Theme customization must respect the Bootstrap-only styling requirement.
+
+5. Change management
+- Treat this file as the canonical record of decisions for future KodCommerce work.
+- Consult it before planning or implementing changes.
+- Append new confirmed decisions as the user provides them; do not silently change existing decisions.
+- Do not interpret unmentioned details as confirmed requirements.
+
+Open questions (not yet decided)
+- PHP version, framework/architecture, database, Bootstrap version, supported locales, exact theme-setting mechanism, mobile navigation behavior, and full admin menu structure.
