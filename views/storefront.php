@@ -17,14 +17,12 @@
  </div>
 </header>
 <main class="flex-grow-1">
- <section class="bg-body-tertiary py-5"><div class="container py-5">
-  <h1 class="display-5 fw-semibold">Welcome to KodCommerce</h1>
-  <p class="lead">Your storefront is ready for dynamic page and theme management.</p>
-  <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#accountDrawer">Sign in</button>
- </div></section>
- <section class="container py-5"><h2 class="h4">Storefront foundation</h2>
-  <p class="text-secondary">This is a temporary storefront shell. The upcoming Page Builder will manage its sections and content.</p>
- </section>
+<?php $homePage = \KodCommerce\Support\Pages::home(); ?>
+<?php if ($homePage): ?>
+<?= \KodCommerce\Support\Pages::render($homePage) ?>
+<?php else: ?>
+<section class="container py-5"><h1 class="h3">KodCommerce</h1><p class="text-secondary">Homepage content can be published from the administration panel.</p></section>
+<?php endif; ?>
 </main>
 <footer class="border-top py-4"><div class="container d-flex flex-wrap justify-content-between gap-2">
  <span>© <?= date('Y') ?> KodCommerce</span><span>Powered by KodCommerce</span>
