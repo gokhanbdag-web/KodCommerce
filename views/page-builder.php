@@ -9,8 +9,9 @@ foreach (['Widget','Type','Content','Column','Span','+ Widget','Row','Width','Re
   <div><h1 id="builderTitle" class="h3 mb-1"><?= e($builderPage ? t('Edit Page') : t('Add New Page')) ?></h1><p class="text-secondary mb-0"><?= e(t('Use the visual editor to arrange this page.')) ?></p></div>
   <div class="d-flex flex-wrap gap-2"><button type="button" class="btn btn-outline-secondary" data-builder-action="preview"><?= e(t('Preview')) ?></button><button type="button" class="btn btn-primary" data-builder-action="save"><?= e(t('Save Page')) ?></button></div>
  </div>
+ <div class="d-flex flex-wrap align-items-center gap-2 mb-3"><span id="builderDirty" class="small text-warning" hidden><?= e(t('Unsaved changes')) ?></span><a id="builderViewPage" class="btn btn-sm btn-outline-primary" href="/pages/<?= e($builderPage['slug'] ?? '') ?>" <?= ($builderPage['status'] ?? '') === 'published' ? '' : 'hidden' ?> target="_blank" rel="noopener"><?= e(t('View published page')) ?></a></div>
  <div class="row g-3">
-  <div class="col-lg-9">
+  <div class="col-lg-8">
    <div class="card"><div class="card-body">
     <label class="form-label" for="builderPageTitle"><?= e(t('Page title')) ?></label><input id="builderPageTitle" class="form-control mb-3" maxlength="160" value="<?= e($builderPage['title'] ?? '') ?>">
     <div class="row g-3 mb-3">
@@ -20,7 +21,7 @@ foreach (['Widget','Type','Content','Column','Span','+ Widget','Row','Width','Re
     <button type="button" class="btn btn-outline-primary mt-3" data-builder-action="add-row"><?= e(t('+ Add row')) ?></button>
    </div></div>
   </div>
-  <div class="col-lg-3"><div class="card"><div class="card-body">
+  <div class="col-lg-4"><div class="card mb-3"><div class="card-body"><h2 class="h6"><?= e(t('Publish settings')) ?></h2><p class="small text-secondary mb-2"><?= e(t('Draft pages are private. Published pages are visible to everyone.')) ?></p><p class="small mb-0"><?= e(t('Save as draft while editing, then select Published and save to go live.')) ?></p></div></div><div class="card"><div class="card-body">
    <h2 class="h6"><?= e(t('Widget library')) ?></h2><p class="small text-secondary"><?= e(t('Add a widget to any column. Drag cards to reorder within a column, or use the move buttons.')) ?></p>
    <p class="small mb-1"><?= e(t('Available: Heading, Text, Button')) ?></p>
    <p class="small mb-0"><?= e(t('Choose row width and column span (1–12) for Bootstrap layouts.')) ?></p>
