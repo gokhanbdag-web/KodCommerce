@@ -1,0 +1,315 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: KodCommerce 0.1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en_US\n"
+
+msgid "Dashboard"
+msgstr ""
+
+msgid "Overview"
+msgstr ""
+
+msgid "CRM"
+msgstr ""
+
+msgid "Customers"
+msgstr ""
+
+msgid "Leads"
+msgstr ""
+
+msgid "Opportunities"
+msgstr ""
+
+msgid "Activities"
+msgstr ""
+
+msgid "Inventory & Warehouse"
+msgstr ""
+
+msgid "Inventory"
+msgstr ""
+
+msgid "Warehouses"
+msgstr ""
+
+msgid "Stock Movements"
+msgstr ""
+
+msgid "Stock Counts"
+msgstr ""
+
+msgid "Sales & Purchasing"
+msgstr ""
+
+msgid "Sales"
+msgstr ""
+
+msgid "Purchases"
+msgstr ""
+
+msgid "Quotations"
+msgstr ""
+
+msgid "Suppliers"
+msgstr ""
+
+msgid "Accounting & Finance"
+msgstr ""
+
+msgid "Accounts"
+msgstr ""
+
+msgid "Transactions"
+msgstr ""
+
+msgid "Invoices"
+msgstr ""
+
+msgid "Payments"
+msgstr ""
+
+msgid "Reports"
+msgstr ""
+
+msgid "POS"
+msgstr ""
+
+msgid "Point of Sale"
+msgstr ""
+
+msgid "POS Sessions"
+msgstr ""
+
+msgid "Manufacturing"
+msgstr ""
+
+msgid "Production Orders"
+msgstr ""
+
+msgid "Bill of Materials"
+msgstr ""
+
+msgid "Technical Service"
+msgstr ""
+
+msgid "Service Tickets"
+msgstr ""
+
+msgid "Shipping & Returns"
+msgstr ""
+
+msgid "Shipments"
+msgstr ""
+
+msgid "Returns"
+msgstr ""
+
+msgid "Human Resources"
+msgstr ""
+
+msgid "Employees"
+msgstr ""
+
+msgid "Attendance"
+msgstr ""
+
+msgid "Branch Management"
+msgstr ""
+
+msgid "Branches"
+msgstr ""
+
+msgid "Branch Staff"
+msgstr ""
+
+msgid "Branch Inventory"
+msgstr ""
+
+msgid "E-Commerce"
+msgstr ""
+
+msgid "Products"
+msgstr ""
+
+msgid "Categories"
+msgstr ""
+
+msgid "Orders"
+msgstr ""
+
+msgid "Marketplace Integrations"
+msgstr ""
+
+msgid "Trendyol"
+msgstr ""
+
+msgid "Hepsiburada"
+msgstr ""
+
+msgid "Ciceksepeti"
+msgstr ""
+
+msgid "Pazarama"
+msgstr ""
+
+msgid "PTTAVM"
+msgstr ""
+
+msgid "Content Management"
+msgstr ""
+
+msgid "Pages"
+msgstr ""
+
+msgid "Page Builder"
+msgstr ""
+
+msgid "Theme Management"
+msgstr ""
+
+msgid "Header Management"
+msgstr ""
+
+msgid "Hero Management"
+msgstr ""
+
+msgid "Footer Management"
+msgstr ""
+
+msgid "Typography"
+msgstr ""
+
+msgid "Colors"
+msgstr ""
+
+msgid "Menu Management"
+msgstr ""
+
+msgid "Menus"
+msgstr ""
+
+msgid "Blog Management"
+msgstr ""
+
+msgid "Posts"
+msgstr ""
+
+msgid "Blog Categories"
+msgstr ""
+
+msgid "Tags"
+msgstr ""
+
+msgid "Media Management"
+msgstr ""
+
+msgid "Media Library"
+msgstr ""
+
+msgid "Site Settings"
+msgstr ""
+
+msgid "General Settings"
+msgstr ""
+
+msgid "Writing"
+msgstr ""
+
+msgid "Reading"
+msgstr ""
+
+msgid "Discussion"
+msgstr ""
+
+msgid "Media Settings"
+msgstr ""
+
+msgid "Permalinks"
+msgstr ""
+
+msgid "Privacy"
+msgstr ""
+
+msgid "Mail Settings"
+msgstr ""
+
+msgid "Maintenance & Cache"
+msgstr ""
+
+msgid "User Management"
+msgstr ""
+
+msgid "Users"
+msgstr ""
+
+msgid "Roles & Permissions"
+msgstr ""
+
+msgid "My Profile"
+msgstr ""
+
+msgid "Integrations"
+msgstr ""
+
+msgid "Analytics & Reporting"
+msgstr ""
+
+msgid "Analytics"
+msgstr ""
+
+msgid "Breadcrumb"
+msgstr ""
+
+msgid "Coming soon"
+msgstr ""
+
+msgid "This module is reserved for a future development stage."
+msgstr ""
+
+msgid "Invalid security token"
+msgstr ""
+
+msgid "Invalid credentials"
+msgstr ""
+
+msgid "Authentication required"
+msgstr ""
+
+msgid "KodCommerce Administration"
+msgstr ""
+
+msgid "Open navigation"
+msgstr ""
+
+msgid "Account"
+msgstr ""
+
+msgid "Navigation"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "Password"
+msgstr ""
+
+msgid "Sign in"
+msgstr ""
+
+msgid "Administrator"
+msgstr ""
+
+msgid "Sign out"
+msgstr ""
+
+msgid "Welcome to KodCommerce"
+msgstr ""
+
+msgid "Sign in to access the administration panel."
+msgstr ""

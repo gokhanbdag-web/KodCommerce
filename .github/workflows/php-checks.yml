@@ -1,0 +1,18 @@
+name: PHP checks
+on:
+  push:
+  pull_request:
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate PHP syntax
+        run: find app public views -name '*.php' -print0 | xargs -0 -n1 php -l
+      - name: Compile translation catalogs
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y gettext
+          find locales -name '*.po' -print0 | while IFS= read -r -d '' f; do msgfmt --check "$f" -o "${f%.po}.mo"; done
+      - name: Verify no uncommitted compiled files
+        run: git status --short
