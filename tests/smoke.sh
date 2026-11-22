@@ -13,7 +13,7 @@ test -n "$csrf"
 curl -fsS -b /tmp/kodcommerce-cookie -c /tmp/kodcommerce-cookie -d "csrf=$csrf" --data-urlencode 'email=admin@example.test' --data-urlencode 'password=correct-horse-battery-staple' http://127.0.0.1:8765/install | grep -q '"ok":true'
 curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/ | grep -q 'Storefront foundation'
 curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/ | grep -q 'accountDrawer'
-curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/install | grep -q 'Storefront foundation'
+curl -fsS -L -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/install | grep -q 'Storefront foundation'
 csrf=$(curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/ | sed -n 's/.*name="csrf-token" content="\([^"]*\)".*/\1/p' | head -1)
 test -n "$csrf"
 curl -fsS -b /tmp/kodcommerce-cookie -c /tmp/kodcommerce-cookie -d "csrf=$csrf" --data-urlencode 'email=admin@example.test' --data-urlencode 'password=correct-horse-battery-staple' http://127.0.0.1:8765/api/login | grep -q '"ok":true'
