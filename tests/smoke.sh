@@ -25,12 +25,14 @@ csrf=$(curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/ | sed -n 's/.
 test -n "$csrf"
 curl -fsS -b /tmp/kodcommerce-cookie -c /tmp/kodcommerce-cookie -d "csrf=$csrf" --data-urlencode 'email=admin@example.test' --data-urlencode 'password=correct-horse-battery-staple' http://127.0.0.1:8765/api/login | grep -q '"ok":true'
 curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/admin/dashboard/overview | grep -q 'adminContent'
-# Save a homepage as the authenticated administrator and verify rendered output.
-csrf=$(curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/ | sed -n 's/.*name="csrf-token" content="\([^"]*\)".*/\1/p' | head -1)
+# Pages is the only CMS navigation entry; new pages open the embedded visual editor.
+curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/admin/content-management/pages | grep -q 'Add New Page'
+curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/admin/content-management/pages | grep -q 'content-management/pages'
+! curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/admin/content-management/pages | grep -q 'href="/admin/content-management/page-builder"'
+curl -fsS -b /tmp/kodcommerce-cookie -H 'X-Requested-With: XMLHttpRequest' 'http://127.0.0.1:8765/admin/content-management/pages?new=1' | grep -q 'builderRows'
+csrf=$(curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/ | sed -n 's/.*name="csrf-token" content="\\([^"]*\\)".*/\\1/p' | head -1)
 test -n "$csrf"
-curl -fsS -b /tmp/kodcommerce-cookie -d "csrf=$csrf" --data-urlencode 'title=Homepage' --data-urlencode 'layout=[{"width":"contained","columns":[{"span":12,"widgets":[{"type":"heading","text":"CMS MySQL smoke test"}]}]}]' http://127.0.0.1:8765/api/pages/home | grep -q '"ok":true'
-curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/ | grep -q 'CMS MySQL smoke test'
-curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/admin/content-management/page-builder | grep -q 'id="builderRows"'
-curl -fsS -b /tmp/kodcommerce-cookie -H 'X-Requested-With: XMLHttpRequest' http://127.0.0.1:8765/admin/content-management/page-builder | grep -q 'builderPageTitle'
-curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/api/pages/home | grep -q 'CMS MySQL smoke test'
-echo 'Installer, login, CMS MySQL and visual Page Builder smoke tests passed'
+curl -fsS -b /tmp/kodcommerce-cookie -d "csrf=$csrf" --data-urlencode 'title=About Us' -d 'slug=about-us' -d 'status=published' --data-urlencode 'layout=[{"width":"contained","columns":[{"span":12,"widgets":[{"type":"heading","text":"Published page smoke test"}]}]}]' http://127.0.0.1:8765/api/pages | grep -q '"ok":true'
+curl -fsS http://127.0.0.1:8765/pages/about-us | grep -q 'Published page smoke test'
+curl -fsS -b /tmp/kodcommerce-cookie 'http://127.0.0.1:8765/admin/content-management/pages?edit=1' | grep -q 'builderRows'
+echo 'Installer, login, MySQL Pages CRUD, editor routing and gettext smoke tests passed'
