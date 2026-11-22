@@ -96,3 +96,9 @@ Pending details
 - The posts list must support category filtering and date filtering.
 - Provide an Add New Blog Post button opening a WordPress-like blog post creation interface.
 - Further fields and exact editor behavior are pending the user's continuation.
+
+14. WordPress-like content management (overarching requirement)
+- The user clarified that both Page Management and Blog Management under Content Management should closely replicate the familiar WordPress administration workflows.
+- Treat WordPress-style page and post creation, editing, listing and management as the reference interaction model, while retaining all previously specified custom visual page builder and Bootstrap-only constraints.
+- Blog means posts/articles, not layout blocks. Do not reintroduce 'Block Management' terminology.
+- Exact WordPress feature parity is not assumed for features not yet discussed; clarify when implementation choices materially differ.
