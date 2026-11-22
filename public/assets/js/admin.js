@@ -1,3 +1,4 @@
+import './page-builder.js';
 const content = document.querySelector('#adminContent');
 const loginForm = document.querySelector('#loginForm');
 const accountLinks = document.querySelector('#accountLinks');
