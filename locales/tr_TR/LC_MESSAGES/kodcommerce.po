@@ -313,3 +313,99 @@ msgstr "KodCommerce'e Hoş Geldiniz"
 
 msgid "Sign in to access the administration panel."
 msgstr "Yönetim paneline erişmek için giriş yapın."
+
+msgid "Build your homepage with rows, columns and widgets."
+msgstr "Ana sayfanızı satırlar, sütunlar ve bileşenlerle oluşturun."
+
+msgid "Preview"
+msgstr "Önizleme"
+
+msgid "Publish homepage"
+msgstr "Ana sayfayı yayımla"
+
+msgid "Page title"
+msgstr "Sayfa başlığı"
+
+msgid "Homepage"
+msgstr "Ana sayfa"
+
+msgid "+ Add row"
+msgstr "+ Satır ekle"
+
+msgid "Widget library"
+msgstr "Bileşen kütüphanesi"
+
+msgid "Add a widget to any column. Drag cards to reorder within a column, or use the move buttons."
+msgstr "Herhangi bir sütuna bileşen ekleyin. Sıralamak için sürükleyin veya taşıma düğmelerini kullanın."
+
+msgid "Available: Heading, Text, Button"
+msgstr "Kullanılabilir: Başlık, Metin, Düğme"
+
+msgid "Choose row width and column span (1–12) for Bootstrap layouts."
+msgstr "Bootstrap düzeni için satır genişliğini ve sütun boyutunu (1–12) seçin."
+
+msgid "Widget"
+msgstr "Bileşen"
+
+msgid "Type"
+msgstr "Tür"
+
+msgid "Content"
+msgstr "İçerik"
+
+msgid "Column"
+msgstr "Sütun"
+
+msgid "Span"
+msgstr "Genişlik"
+
+msgid "+ Widget"
+msgstr "+ Bileşen"
+
+msgid "Row"
+msgstr "Satır"
+
+msgid "Width"
+msgstr "Genişlik"
+
+msgid "Remove row"
+msgstr "Satırı kaldır"
+
+msgid "+ Column"
+msgstr "+ Sütun"
+
+msgid "Preview (unsaved)"
+msgstr "Önizleme (kaydedilmedi)"
+
+msgid "Homepage published. View it at /"
+msgstr "Ana sayfa yayımlandı. / adresinden görüntüleyin."
+
+msgid "Save failed"
+msgstr "Kaydetme başarısız"
+
+msgid "Unable to save homepage"
+msgstr "Ana sayfa kaydedilemedi"
+
+msgid "Unable to load page"
+msgstr "Sayfa yüklenemedi"
+
+msgid "Unable to load saved layout"
+msgstr "Kayıtlı düzen yüklenemedi"
+
+msgid "heading"
+msgstr "başlık"
+
+msgid "text"
+msgstr "metin"
+
+msgid "button"
+msgstr "düğme"
+
+msgid "contained"
+msgstr "sabit genişlik"
+
+msgid "fluid"
+msgstr "akışkan"
+
+msgid "full"
+msgstr "tam genişlik"
