@@ -28,7 +28,8 @@ jobs:
         run: |
           node --check public/assets/js/page-builder.js
           node --check public/assets/js/page-layout.mjs
-          node --test tests/page-layout.test.mjs
+          node --test tests/page-layout.test.mjs tests/page-editor-history.test.mjs
+          node --check public/assets/js/page-editor-history.mjs
       - name: Smoke test installer, AJAX login and storefront
         run: bash tests/smoke.sh
       - name: Verify gettext catalog coverage
