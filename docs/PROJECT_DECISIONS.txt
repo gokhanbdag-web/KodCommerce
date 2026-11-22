@@ -116,3 +116,12 @@ Pending details
 - Do not copy WordPress proprietary branding, artwork, or third-party assets; respect applicable open-source licenses if any external code is incorporated.
 - Preserve the previously agreed Bootstrap-only styling constraint and custom page-builder requirements.
 - This architectural decision supersedes any earlier suggestion to use WordPress as the underlying engine.
+
+17. ARCHITECTURAL CORRECTION — WordPress source fork (latest decision, supersedes section 16)
+- The user will upload the latest WordPress source version to GitHub.
+- KodCommerce is to be developed by adapting/forking that actual WordPress source, not by independently reimplementing WordPress functionality from scratch.
+- The goal is to transform the fork into a KodCommerce-branded, independently maintained product while PRESERVING WordPress's existing functional capabilities and avoiding regressions.
+- WordPress update-service dependencies are to be replaced with KodCommerce-controlled update services, including a properly designed, secured and maintained update delivery mechanism.
+- The user has not yet supplied/uploaded the source in this turn. Do not begin modifying code until the actual repository/version is identified and inspected.
+- WordPress GPL license notices and attribution obligations must be retained where required; rebranding does not eliminate license duties. WordPress trademark usage must be evaluated separately.
+- This section explicitly overrides section 16's instruction to avoid using WordPress source. The earlier requirements for CMS features, localization, page builder and Bootstrap-based administration remain in force unless subsequently revised.
