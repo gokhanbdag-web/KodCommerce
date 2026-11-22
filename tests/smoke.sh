@@ -26,4 +26,7 @@ csrf=$(curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/ | sed -n 's/.
 test -n "$csrf"
 curl -fsS -b /tmp/kodcommerce-cookie -d "csrf=$csrf" --data-urlencode 'title=Homepage' --data-urlencode 'layout=[{"width":"contained","columns":[{"span":12,"widgets":[{"type":"heading","text":"CMS MySQL smoke test"}]}]}]' http://127.0.0.1:8765/api/pages/home | grep -q '"ok":true'
 curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/ | grep -q 'CMS MySQL smoke test'
-echo 'Installer, storefront, login, admin and CMS MySQL smoke tests passed'
+curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/admin/content-management/page-builder | grep -q 'id="builderRows"'
+curl -fsS -b /tmp/kodcommerce-cookie -H 'X-Requested-With: XMLHttpRequest' http://127.0.0.1:8765/admin/content-management/page-builder | grep -q 'builderPageTitle'
+curl -fsS -b /tmp/kodcommerce-cookie http://127.0.0.1:8765/api/pages/home | grep -q 'CMS MySQL smoke test'
+echo 'Installer, login, CMS MySQL and visual Page Builder smoke tests passed'
