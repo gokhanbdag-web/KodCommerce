@@ -17,7 +17,7 @@ loginForm.addEventListener('submit', async event => {
     loginForm.hidden = true;
     accountLinks.hidden = false;
     loginForm.reset();
-    bootstrap.Offcanvas.getInstance(document.querySelector('#accountDrawer'))?.hide();
+    window.location.assign('/admin/dashboard/overview');
   } catch (_) { errorBox.textContent = 'Unable to sign in'; }
   finally { button.disabled = false; }
 });
